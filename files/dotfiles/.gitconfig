@@ -1,0 +1,9 @@
+[user]
+	name = Marco De Luca
+	email = marcodl404@gmail.com
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true

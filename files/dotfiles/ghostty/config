@@ -1,0 +1,17 @@
+theme = Rose Pine
+background = #000000
+#window-decoration = none
+gtk-titlebar = false
+font-family = Fira Code
+font-size = 12
+font-thicken = true
+font-feature = -liga
+font-feature = -calt
+font-feature = -dlig
+#background-opacity = 0.95
+#background-blur-radius = 70
+window-padding-x = 18
+window-padding-y = 16
+window-height = 75
+window-width = 260
+window-save-state = always

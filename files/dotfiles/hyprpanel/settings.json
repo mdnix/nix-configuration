@@ -1,0 +1,209 @@
+{
+  "bar": {
+    "layouts": {
+      "*": {
+        "left": ["dashboard", "workspaces", "windowtitle"],
+        "middle": ["media", "cava"],
+        "right": [
+          "systray",
+          "volume",
+          "bluetooth",
+          "battery",
+          "network",
+          "clock",
+          "notifications"
+        ]
+      }
+    },
+    "launcher": {
+      "icon": ""
+    },
+    "workspaces": {
+      "show_numbered": false,
+      "workspaces": 5,
+      "numbered_active_indicator": "color",
+      "monitorSpecific": false,
+      "applicationIconEmptyWorkspace": "",
+      "showApplicationIcons": true,
+      "showWsIcons": true
+    },
+    "windowtitle": {
+      "label": true
+    },
+    "volume": {
+      "label": false
+    },
+    "network": {
+      "truncation_size": 12
+    },
+    "bluetooth": {
+      "label": false
+    },
+    "clock": {
+      "format": "%a %b %d  %I:%M %p"
+    },
+    "notifications": {
+      "show_total": true
+    },
+    "media": {
+      "show_active_only": true
+    },
+    "customModules": {
+      "updates": {
+        "pollingInterval": 1440000
+      },
+      "cava": {
+        "showIcon": false,
+        "stereo": true,
+        "showActiveOnly": true
+      }
+    }
+  },
+  "theme": {
+    "font": {
+      "name": "FiraCode Nerd Font",
+      "size": "14px"
+    },
+    "bar": {
+      "outer_spacing": "8px",
+      "margin_top": "10px",
+      "margin_bottom": "0px",
+      "margin_sides": "10px",
+      "border_radius": "10px",
+      "transparent": false,
+      "location": "top",
+      "floating": true,
+      "dropdownGap": "4.5em",
+      "buttons": {
+        "y_margins": "8px",
+        "spacing": "0.3em",
+        "radius": "10px",
+        "padding_x": "0.8rem",
+        "padding_y": "0.4rem",
+        "style": "default",
+        "monochrome": true
+      },
+      "menus": {
+        "monochrome": true,
+        "card_radius": "10px",
+        "shadow": "0px 0px 3px 1px #16161e",
+        "border": {
+          "size": "2px",
+          "radius": "10px"
+        },
+        "menu": {
+          "media": {
+            "card": {
+              "tint": 90
+            }
+          }
+        }
+      }
+    },
+    "notification": {
+      "opacity": 90,
+      "enableShadow": true,
+      "border_radius": "10px"
+    },
+    "osd": {
+      "enable": true,
+      "orientation": "vertical",
+      "location": "left",
+      "radius": "10px",
+      "margins": "0px 0px 0px 10px",
+      "muted_zero": true
+    }
+  },
+  "notifications": {
+    "position": "top right",
+    "showActionsOnHover": true
+  },
+  "menus": {
+    "clock": {
+      "weather": {
+        "location": "Zurich",
+        "unit": "metric"
+      }
+    },
+    "dashboard": {
+      "powermenu": {
+        "confirmation": false,
+        "avatar": {
+          "image": "~/.face.icon"
+        }
+      },
+      "shortcuts": {
+        "left": {
+          "shortcut1": {
+            "icon": "",
+            "command": "zen-browser",
+            "tooltip": "Zen Browser"
+          },
+          "shortcut2": {
+            "icon": "󰅶",
+            "command": "caffeine",
+            "tooltip": "Caffeine"
+          },
+          "shortcut3": {
+            "icon": "󰖔",
+            "command": "night-shift",
+            "tooltip": "Night-shift"
+          },
+          "shortcut4": {
+            "icon": "",
+            "command": "wofi --show drun",
+            "tooltip": "Search Apps"
+          }
+        },
+        "right": {
+          "shortcut1": {
+            "icon": "",
+            "command": "hyprpicker -a",
+            "tooltip": "Color Picker"
+          },
+          "shortcut3": {
+            "icon": "󰄀",
+            "command": "hyprshot -m region",
+            "tooltip": "Screenshot"
+          }
+        }
+      },
+      "directories": {
+        "left": {
+          "directory1": {
+            "label": "     Home",
+            "command": "xdg-open /home/marco"
+          },
+          "directory2": {
+            "label": "󰲂     Documents",
+            "command": "xdg-open /home/marco/Documents"
+          },
+          "directory3": {
+            "label": "󰉍     Downloads",
+            "command": "xdg-open /home/marco/Downloads"
+          }
+        },
+        "right": {
+          "directory1": {
+            "label": "     Desktop",
+            "command": "xdg-open /home/marco/Desktop"
+          },
+          "directory2": {
+            "label": "     Videos",
+            "command": "xdg-open /home/marco/Videos"
+          },
+          "directory3": {
+            "label": "󰉏     Pictures",
+            "command": "xdg-open /home/marco/Pictures"
+          }
+        }
+      }
+    },
+    "power": {
+      "lowBatteryNotification": true
+    }
+  },
+  "wallpaper": {
+    "enable": false
+  }
+}
