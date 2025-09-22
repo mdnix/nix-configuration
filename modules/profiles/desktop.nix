@@ -17,24 +17,20 @@ in
     programs.hyprland = {
       enable = true;
       withUWSM = true;
-      package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
 
     # Essential Wayland packages
     environment.systemPackages = with pkgs.unstable; [
-      # Hyprland ecosystem (using inputs for latest)
-      inputs.hyprland.packages.${pkgs.system}.hyprland
-      inputs.hyprland.packages.${pkgs.system}.hyprpaper
-      inputs.hyprpanel.packages.${pkgs.system}.default
-      inputs.hyprland.packages.${pkgs.system}.hypridle
-      inputs.hyprland.packages.${pkgs.system}.hyprlock
+      # Hyprland ecosystem
+      hyprland
+      hyprpaper
+      hyprpanel
+      hypridle
+      hyprlock
       wofi
 
       # Wayland utilities
-      qt5.qtwayland
       qt6.qtwayland
-      libsForQt5.qt5ct
       qt6ct
       hyprshot
       hyprpicker
@@ -47,7 +43,6 @@ in
       wayland-protocols
 
       # Essential desktop apps
-      zen-browser
       ghostty
       nautilus
 
@@ -64,7 +59,6 @@ in
       libva
       dconf
       glib
-      direnv
       meson
     ];
 
@@ -85,5 +79,8 @@ in
 
     # Enable polkit authentication agent
     security.polkit.enable = true;
+
+    # Enable Flatpak
+    services.flatpak.enable = true;
   };
 }

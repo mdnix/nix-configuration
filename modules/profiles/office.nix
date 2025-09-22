@@ -29,6 +29,7 @@ in
 
       # Note-taking and productivity
       obsidian
+      imagemagick
       _1password-gui
 
       # File management
@@ -40,7 +41,7 @@ in
 
     # Enable printing
     services.printing.enable = true;
-    services.printing.drivers = [ pkgs.hplip ];
+    services.printing.drivers = [ pkgs.unstable.hplip ];
 
     # Enable scanning
     hardware.sane.enable = true;

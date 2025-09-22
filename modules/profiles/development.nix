@@ -19,13 +19,6 @@ in
       gnupg
       wget
       curl
-      jq
-      yq-go
-      ripgrep
-      fd
-      tree
-      htop
-      btop
       direnv
       nix-direnv
       tmux
@@ -41,11 +34,14 @@ in
       gopls
       delve
       python3
+      rustc
+      cargo
+      rust-analyzer
 
       # container & k8s
       kubectl
       kind
-      helm
+      kubernetes-helm
       openshift
 
       # Development tools
@@ -57,13 +53,11 @@ in
       virt-manager
       qemu
 
-      # Cloud & sync
-      rclone
     ];
 
     # Enable fonts for development
     fonts.packages = with pkgs.unstable; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nerd-fonts.fira-code
     ];
 
     # Enable virtualization

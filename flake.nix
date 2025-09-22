@@ -55,6 +55,33 @@
           }
         ];
       };
+
+      testvm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          {
+            nixpkgs.overlays = [
+              (import ./overlays { inherit inputs; }).additions
+              (import ./overlays { inherit inputs; }).modifications
+              (import ./overlays { inherit inputs; }).unstable-packages
+            ];
+            _module.args = { inherit inputs; };
+          }
+
+          # Core modules
+          ./hosts/testvm/configuration.nix
+
+          # Home manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.marco = import ./modules/home-manager;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
+      };
     };
   };
 }

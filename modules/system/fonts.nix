@@ -12,7 +12,8 @@
       noto-fonts-emoji
 
       # Nerd fonts
-      (nerdfonts.override { fonts = [ "FiraCode" "Meslo" ]; })
+      nerd-fonts.fira-code
+      nerd-fonts.meslo-lg
 
       # Emoji fonts
       openmoji-color

@@ -14,8 +14,6 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs.unstable; [
       # System monitoring
-      htop
-      btop
       iotop
       nethogs
       ncdu
@@ -40,6 +38,14 @@ in
       file
       lsof
 
+      # System monitoring (moved from development profile)
+      htop
+      btop
+
+      # Text processing (moved from development profile)
+      jq
+      yq-go
+
       # Archive tools
       unrar
       p7zip
@@ -47,13 +53,6 @@ in
       unzip
       gzip
       xz
-
-      # Text processing
-      jq
-      yq-go
-      sed
-      awk
-      grep
 
       # System utilities
       stress

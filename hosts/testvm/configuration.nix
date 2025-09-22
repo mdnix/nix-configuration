@@ -2,8 +2,8 @@
 
 {
   imports = [
-    #./disks.nix
     ./hardware-configuration.nix
+
 
     # System modules
     ../../modules/system/fonts.nix
@@ -18,20 +18,23 @@
     ../../modules/profiles/tools.nix
   ];
 
-  # Enable profiles
+  # Enable profiles for testing
   profiles = {
     desktop.enable = true;
     development.enable = true;
-    office.enable = true;
     tools.enable = true;
   };
 
-  # Boot loader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot loader (GRUB for VM)
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/vda";
+  boot.loader.grub.useOSProber = true;
 
   # Hostname
-  networking.hostName = "x1";
+  networking.hostName = "testvm";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Timezone and locale
   time.timeZone = "Europe/Zurich";
@@ -40,17 +43,19 @@
   # Keyboard layout
   services.xserver.xkb = {
     layout = "ch";
-    options = "nodeadkeys";
+    variant = "de_nodeadkeys";
   };
+  console.keyMap = "sg";
 
   # User configuration
   users.users.marco = {
     isNormalUser = true;
     description = "Marco";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # Nix configuration is handled in system/nix.nix
+  # Enable SSH for remote access
+  services.openssh.enable = true;
 
   system.stateVersion = "25.05";
 }
