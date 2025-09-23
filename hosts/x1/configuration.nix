@@ -43,10 +43,14 @@
     options = "nodeadkeys";
   };
 
+  # Enable zsh
+  programs.zsh.enable = true;
+
   # User configuration
   users.users.marco = {
     isNormalUser = true;
     description = "Marco";
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
