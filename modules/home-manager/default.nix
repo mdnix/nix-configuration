@@ -35,6 +35,10 @@
     ".config/hyprpanel".source = ../../files/dotfiles/hyprpanel;
     ".config/hyprpanel".recursive = true;
 
+    # Wofi configuration
+    ".config/wofi".source = ../../files/dotfiles/wofi;
+    ".config/wofi".recursive = true;
+
     # Wallpapers
     ".config/wallpapers".source = ../../files/wallpapers;
     ".config/wallpapers".recursive = true;
