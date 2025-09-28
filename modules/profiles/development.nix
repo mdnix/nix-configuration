@@ -15,6 +15,8 @@ in
     environment.systemPackages = with pkgs.unstable; [
       # editors & shells
       neovim
+      zed-editor
+      vscode
       git
       gnupg
       wget
@@ -66,7 +68,7 @@ in
       libvirtd.enable = true;
     };
 
-    # Add user to libvirtd group for virt-manager
-    users.users.marco.extraGroups = [ "libvirtd" ];
+    # Add user to libvirtd and docker groups
+    users.users.marco.extraGroups = [ "libvirtd" "docker" ];
   };
 }

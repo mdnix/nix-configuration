@@ -37,6 +37,7 @@ in
       tree
       file
       lsof
+      bat
 
       # System monitoring (moved from development profile)
       htop
