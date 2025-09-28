@@ -56,6 +56,7 @@ in
       networkmanagerapplet
       blueman
       gnome-themes-extra
+      phinger-cursors
       libva
       dconf
       glib
