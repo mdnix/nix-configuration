@@ -23,6 +23,7 @@
     desktop.enable = true;
     development.enable = true;
     tools.enable = true;
+    office.enable = true;
   };
 
   # Boot loader (GRUB for VM)
@@ -55,7 +56,7 @@
     isNormalUser = true;
     description = "Marco";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
   };
 
   # Enable SSH for remote access

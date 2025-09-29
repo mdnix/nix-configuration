@@ -18,9 +18,6 @@ in
 
       # PDF tools
       evince
-      okular
-      pdftk
-      pandoc
 
       # Communication
       thunderbird
