@@ -62,5 +62,8 @@
   # Enable SSH for remote access
   services.openssh.enable = true;
 
+  services.spice-vdagentd.enable = true;
+  services.qemuGuest.enable = true;
+
   system.stateVersion = "25.05";
 }

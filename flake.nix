@@ -7,6 +7,8 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
 

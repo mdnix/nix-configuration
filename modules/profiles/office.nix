@@ -28,12 +28,6 @@ in
       obsidian
       imagemagick
       _1password-gui
-
-      # File management
-      file-roller
-      p7zip
-      unzip
-      zip
     ];
 
     # Enable printing

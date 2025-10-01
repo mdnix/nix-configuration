@@ -14,6 +14,8 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs.unstable; [
       # System monitoring
+      btop
+      htop
       iotop
       nethogs
       ncdu
@@ -39,15 +41,12 @@ in
       lsof
       bat
 
-      # System monitoring (moved from development profile)
-      htop
-      btop
-
       # Text processing (moved from development profile)
       jq
       yq-go
 
       # Archive tools
+      file-roller
       unrar
       p7zip
       zip
@@ -63,13 +62,6 @@ in
       lm_sensors
       usbutils
       pciutils
-
-      # Backup and sync
-      borgbackup
-      syncthing
     ];
-
-    # Enable syncthing service
-    services.syncthing.enable = true;
   };
 }

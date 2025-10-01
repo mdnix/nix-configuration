@@ -42,6 +42,7 @@ in
 
       # container & k8s
       kubectl
+      kubecolor
       kind
       kubernetes-helm
       openshift
