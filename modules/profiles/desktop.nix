@@ -49,6 +49,7 @@ in
       # Media and utilities
       vlc
       mpv
+      spotify
       pavucontrol
       brightnessctl
 

@@ -23,6 +23,7 @@ in
       thunderbird
       discord
       zoom-us
+      mullvad-vpn
 
       # Note-taking and productivity
       obsidian
@@ -36,5 +37,8 @@ in
 
     # Enable scanning
     hardware.sane.enable = true;
+
+    # Enable Mullvad VPN
+    services.mullvad-vpn.enable = true;
   };
 }
