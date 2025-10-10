@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./disks.nix
     ./hardware-configuration.nix
 
     # System modules
@@ -29,12 +28,6 @@
   # Boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # LUKS encryption
-  boot.initrd.luks.devices."root" = {
-    device = "/dev/disk/by-uuid/REPLACE_WITH_YOUR_UUID";
-    preLVM = true;
-  };
 
   # Kernel for Lunar Lake support
   boot.kernelPackages = pkgs.linuxPackages_latest;

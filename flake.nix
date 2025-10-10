@@ -18,11 +18,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = { self, nixpkgs, home-manager, disko, nixos-hardware, hyprland, hyprpanel, stylix, ... }@inputs: {
@@ -41,11 +36,10 @@
           }
 
           # Hardware configuration
-          nixos-hardware.nixosModules.lenovo-thinkpad-x1-carbon-gen13
+          nixos-hardware.nixosModules.lenovo-thinkpad-x1-13th-gen
 
           # Core modules
           ./hosts/x1/configuration.nix
-          disko.nixosModules.disko
 
           # Home manager
           home-manager.nixosModules.home-manager
