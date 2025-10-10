@@ -2,7 +2,7 @@
 
 {
   imports = [
-    #./disks.nix
+    ./disks.nix
     ./hardware-configuration.nix
 
     # System modules
@@ -29,6 +29,53 @@
   # Boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # LUKS encryption
+  boot.initrd.luks.devices."root" = {
+    device = "/dev/disk/by-uuid/REPLACE_WITH_YOUR_UUID";
+    preLVM = true;
+  };
+
+  # Kernel for Lunar Lake support
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Intel graphics (Lunar Lake Arc 140V)
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
+    ];
+  };
+
+  # Enable Intel GPU driver (xe)
+  boot.initrd.kernelModules = [ "xe" ];
+
+  # Laptop power management
+  services.auto-cpufreq = {
+    enable = true;
+    settings = {
+      charger = {
+        governor = "performance";
+        turbo = "auto";
+      };
+      battery = {
+        governor = "powersave";
+        turbo = "auto";
+      };
+    };
+  };
+
+  # Better touchpad/trackpoint support
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+      tapping = true;
+      disableWhileTyping = true;
+    };
+  };
 
   # Hostname
   networking.hostName = "x1";
