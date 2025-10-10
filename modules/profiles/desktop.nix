@@ -84,5 +84,23 @@ in
 
     # Enable Flatpak
     services.flatpak.enable = true;
+
+    # GTK dark theme configuration
+    home-manager.users.marco = {
+      gtk = {
+        enable = true;
+        theme = {
+          name = "Adwaita-dark";
+          package = pkgs.gnome-themes-extra;
+        };
+      };
+
+      dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+          gtk-theme = "Adwaita-dark";
+        };
+      };
+    };
   };
 }
