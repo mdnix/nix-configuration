@@ -46,19 +46,7 @@
   boot.initrd.kernelModules = [ "xe" ];
 
   # Laptop power management
-  services.auto-cpufreq = {
-    enable = true;
-    settings = {
-      charger = {
-        governor = "performance";
-        turbo = "auto";
-      };
-      battery = {
-        governor = "powersave";
-        turbo = "auto";
-      };
-    };
-  };
+  services.power-profiles-daemon.enable = true;
 
   # Better touchpad/trackpoint support
   services.libinput = {
