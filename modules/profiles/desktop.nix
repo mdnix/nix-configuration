@@ -52,6 +52,7 @@ in
       spotify
       pavucontrol
       brightnessctl
+      cheese
 
       # System utilities
       networkmanagerapplet
@@ -84,6 +85,13 @@ in
 
     # Enable Flatpak
     services.flatpak.enable = true;
+
+    # Enable UPower for battery information
+    services.upower.enable = true;
+
+    # Enable automatic mounting of USB devices
+    services.udisks2.enable = true;
+    services.gvfs.enable = true;
 
     # GTK dark theme configuration
     home-manager.users.marco = {

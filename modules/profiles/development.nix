@@ -26,6 +26,7 @@ in
       tmux
       starship
       zsh-completions
+      bash
 
       # languages / build essentials
       gcc
@@ -36,6 +37,7 @@ in
       gopls
       delve
       python3
+      nodejs
       rustc
       cargo
       rust-analyzer
@@ -51,6 +53,7 @@ in
       lazygit
       lazydocker
       devpod
+      keychain
 
       # Virtualization
       virt-manager
