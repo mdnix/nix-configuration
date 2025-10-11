@@ -17,13 +17,6 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            swap = {
-              size = "16G";
-              content = {
-                type = "swap";
-                randomEncryption = true;
-              };
-            };
             root = {
               size = "100%";
               content = {
