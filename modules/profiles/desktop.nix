@@ -50,6 +50,7 @@ in
       vlc
       mpv
       spotify
+      obs-studio
       pavucontrol
       brightnessctl
       cheese

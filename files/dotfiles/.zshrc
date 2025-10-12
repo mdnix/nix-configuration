@@ -169,7 +169,7 @@ update-sshop () {
 
 # Load vshn ssh key
 start_ssh_agent() {
-  eval $(keychain --eval --agents ssh id_ed25519 2> /dev/null)
+  eval $(keychain --eval --agents ssh vshn 2> /dev/null)
 }
 
 approve-sg() {

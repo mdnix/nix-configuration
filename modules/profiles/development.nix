@@ -41,6 +41,7 @@ in
       rustc
       cargo
       rust-analyzer
+      zig
 
       # container & k8s
       kubectl

@@ -19,7 +19,7 @@
       VirtualKeyboardButtonTextColor = "#ffffff";
       DropdownBackgroundColor = "#1a1a1a";
       HighlightBackgroundColor = "#333333";
-      Background = "/home/marco/.config/wallpapers/wallpaper1.jpg";
+      Background = "/home/marco/.config/wallpapers/wallpaper.png";
     };
   };
 in {
