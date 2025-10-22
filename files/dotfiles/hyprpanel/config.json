@@ -416,8 +416,7 @@
         "volume",
         "network",
         "bluetooth",
-        "battery",
-        "power"
+        "battery"
       ]
     },
     "1": {
@@ -427,12 +426,18 @@
         "windowtitle"
       ],
       "middle": [
-        "media"
+        "notifications",
+        "clock"
       ],
       "right": [
+        "media",
+        "systray",
+        "cpu",
+        "ram",
         "volume",
-        "clock",
-        "notifications"
+        "network",
+        "bluetooth",
+        "battery"
       ]
     },
     "2": {
@@ -442,12 +447,18 @@
         "windowtitle"
       ],
       "middle": [
-        "media"
+        "notifications",
+        "clock"
       ],
       "right": [
+        "media",
+        "systray",
+        "cpu",
+        "ram",
         "volume",
-        "clock",
-        "notifications"
+        "network",
+        "bluetooth",
+        "battery"
       ]
     }
   },
@@ -466,7 +477,6 @@
   "bar.network.label": true,
   "bar.media.show_active_only": true,
   "menus.dashboard.shortcuts.left.shortcut4.command": "ags -i main toggle launcher",
-  "menus.dashboard.directories.left.directory3.command": "bash -c \"xdg-open $HOME/projects/\"",
   "bar.customModules.weather.unit": "metric",
   "bar.workspaces.show_icons": false,
   "bar.workspaces.workspaceMask": false,
@@ -479,11 +489,6 @@
       "ghostty",
       "",
       "Ghostty"
-    ],
-    [
-      "folke.quake",
-      "",
-      "Terminal"
     ],
     [
       "zen",

@@ -98,7 +98,7 @@ alias nv="nvim"
 # ----------------------------
 alias k="kubectl"
 alias ka="kubectl --as cluster-admin"
-alias kns="kubectl ns"
+alias kns="kubens"
 alias kgn="kubectl get nodes -o wide"
 alias kgp="kubectl get pods -o wide"
 alias kgpa="kubectl get pods -o wide -A --sort-by=.metadata.namespace"
