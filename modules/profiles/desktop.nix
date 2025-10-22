@@ -27,6 +27,7 @@ in
       hyprpanel
       hypridle
       hyprlock
+      hyprsunset
       wofi
 
       # Wayland utilities

@@ -17,6 +17,7 @@ in
       neovim
       zed-editor
       vscode
+      heynote
       git
       gnupg
       wget
@@ -45,6 +46,7 @@ in
 
       # container & k8s
       kubectl
+      kubectx
       kubecolor
       kind
       kubernetes-helm
@@ -59,7 +61,6 @@ in
       # Virtualization
       virt-manager
       qemu
-
     ];
 
     # Enable fonts for development
