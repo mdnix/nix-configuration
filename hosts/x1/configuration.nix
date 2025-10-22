@@ -30,7 +30,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Kernel for Lunar Lake support
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   # Intel graphics (Lunar Lake Arc 140V)
   hardware.graphics = {
@@ -44,6 +44,9 @@
 
   # Enable Intel GPU driver (xe)
   boot.initrd.kernelModules = [ "xe" ];
+
+  # Load iptables kernel modules
+  boot.kernelModules = [ "iptable_filter" "iptable_nat" ];
 
   # Laptop power management
   services.power-profiles-daemon.enable = true;
