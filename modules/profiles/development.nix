@@ -39,6 +39,7 @@ in
       delve
       python3
       nodejs
+      bun
       rustc
       cargo
       rust-analyzer
