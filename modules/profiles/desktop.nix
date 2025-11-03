@@ -32,7 +32,7 @@ in
 
       # Wayland utilities
       qt6.qtwayland
-      qt6ct
+      qt6Packages.qt6ct
       hyprshot
       hyprpicker
       swappy
@@ -46,6 +46,7 @@ in
       # Essential desktop apps
       ghostty
       nautilus
+      google-chrome
 
       # Media and utilities
       vlc
