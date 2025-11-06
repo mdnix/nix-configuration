@@ -44,6 +44,8 @@ in
       cargo
       rust-analyzer
       zig
+      zls
+      nixd
 
       # container & k8s
       kubectl

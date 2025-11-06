@@ -1,15 +1,12 @@
 -- plugins/lspconfig.lua
 
-local lspconfig = require "lspconfig"
-local util = require "lspconfig/util"
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lspconfig.gopls.setup {
+vim.lsp.config('gopls', {
   capabilities = capabilities,
   cmd = {"gopls", "serve"},
   filetypes = {"go", "gomod", "gowork"},
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+  root_markers = {"go.work", "go.mod", ".git"},
   settings = {
     gopls = {
       analyses = {
@@ -19,14 +16,25 @@ lspconfig.gopls.setup {
       staticcheck = true,
     },
   },
-}
-
-lspconfig.nixd.setup({
-   settings = {
-      nixd = {
-         formatting = {
-            command = { "nixfmt" },
-         },
-      },
-   },
 })
+
+vim.lsp.config('nixd', {
+  capabilities = capabilities,
+  settings = {
+    nixd = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    },
+  },
+})
+
+vim.lsp.config('zls', {
+  capabilities = capabilities,
+  cmd = {"zls"},
+  filetypes = {"zig", "zir"},
+  root_markers = {"zls.json", "build.zig", ".git"},
+})
+
+-- Enable the LSP servers
+vim.lsp.enable({'gopls', 'nixd', 'zls'})
