@@ -1,7 +1,5 @@
 {
-  config,
   inputs,
-  lib,
   ...
 }: {
   security.sudo.extraRules = [

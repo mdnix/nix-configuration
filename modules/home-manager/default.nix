@@ -1,47 +1,69 @@
-{ config, pkgs, inputs, ... }:
+{ config, ... }:
 
+let
+  # Path to your dotfiles in the git repo (absolute path for out-of-store symlinks)
+  dotfilesPath = "${config.home.homeDirectory}/Documents/gitrepos/nix-configuration/files/dotfiles";
+  wallpapersPath = "${config.home.homeDirectory}/Documents/gitrepos/nix-configuration/files/wallpapers";
+in
 {
   home.username = "marco";
   home.homeDirectory = "/home/marco";
   home.stateVersion = "25.05";
 
-  # Copy dotfiles to their respective locations
   home.file = {
     # Git configuration
-    ".gitconfig".source = ../../files/dotfiles/.gitconfig;
+    ".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.gitconfig";
 
     # Zsh configuration
-    ".zshrc".source = ../../files/dotfiles/.zshrc;
+    ".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.zshrc";
 
     # Tmux configuration
-    ".tmux.conf".source = ../../files/dotfiles/.tmux.conf;
+    ".tmux.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.tmux.conf";
 
     # Starship configuration
-    ".config/starship.toml".source = ../../files/dotfiles/starship.toml;
+    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/starship.toml";
 
     # Neovim configuration
-    ".config/nvim".source = ../../files/dotfiles/nvim;
-    ".config/nvim".recursive = true;
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/nvim";
+      recursive = true;
+      force = true;
+    };
 
     # Ghostty configuration
-    ".config/ghostty".source = ../../files/dotfiles/ghostty;
-    ".config/ghostty".recursive = true;
+    ".config/ghostty" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
+      recursive = true;
+      force = true;
+    };
 
     # Hyprland configuration
-    ".config/hypr".source = ../../files/dotfiles/hypr;
-    ".config/hypr".recursive = true;
+    ".config/hypr" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
+      recursive = true;
+      force = true;
+    };
 
     # Hyprpanel configuration
-    ".config/hyprpanel".source = ../../files/dotfiles/hyprpanel;
-    ".config/hyprpanel".recursive = true;
+    ".config/hyprpanel" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hyprpanel";
+      recursive = true;
+      force = true;
+    };
 
     # Wofi configuration
-    ".config/wofi".source = ../../files/dotfiles/wofi;
-    ".config/wofi".recursive = true;
+    ".config/wofi" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wofi";
+      recursive = true;
+      force = true;
+    };
 
     # Wallpapers
-    ".config/wallpapers".source = ../../files/wallpapers;
-    ".config/wallpapers".recursive = true;
+    ".config/wallpapers" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${wallpapersPath}";
+      recursive = true;
+      force = true;
+    };
   };
 
   # Let Home Manager install and manage itself
