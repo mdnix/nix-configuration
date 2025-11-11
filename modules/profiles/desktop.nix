@@ -46,7 +46,6 @@ in
       # Essential desktop apps
       ghostty
       nautilus
-      google-chrome
 
       # Media and utilities
       vlc
