@@ -51,6 +51,7 @@ in
       kubectl
       kubectx
       kubecolor
+      krew
       kind
       kubernetes-helm
       openshift
