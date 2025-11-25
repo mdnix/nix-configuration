@@ -97,7 +97,7 @@ alias nv="nvim"
 # Kubernetes Aliases
 # ----------------------------
 alias k="kubectl"
-alias ka="kubectl --as cluster-admin"
+alias ka="kubectl --as=system:admin"
 alias kns="kubens"
 alias kgn="kubectl get nodes -o wide"
 alias kgp="kubectl get pods -o wide"
@@ -163,8 +163,13 @@ oargo () {
   kubecolor -n syn port-forward svc/syn-argocd-server 8080:80 --as cluster-admin
 }
 
+spks-argo () {
+  kubectl -n syn get secret steward -o json | jq -r .data.token | base64 --decode | wl-copy
+  kubectl -n syn  port-forward services/syn-argocd-server 8080:80
+}
+
 update-sshop () {
-  cp ~/.ssh/sshop_config ~/.ssh/sshop_config.previous && ssh management2.corp.vshn.net -- "sshop --output-archive /dev/stdout" | tar -C ~ -xvzf - && diff -u ~/.ssh/sshop_config.previous ~/.ssh/sshop_config
+  cp ~/.ssh/sshop_config ~/.ssh/sshop_config.previous && ssh marco.deluca@management2.corp.vshn.net -- "sshop --output-archive /dev/stdout" | tar -C ~ -xvzf - && diff -u ~/.ssh/sshop_config.previous ~/.ssh/sshop_config
 }
 
 # Load vshn ssh key
