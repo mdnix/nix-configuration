@@ -63,6 +63,7 @@ in
       lm_sensors
       usbutils
       pciutils
+      openssl
     ];
   };
 }
