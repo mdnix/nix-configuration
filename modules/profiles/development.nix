@@ -55,6 +55,7 @@ in
       kind
       kubernetes-helm
       openshift
+      talosctl
 
       # Development tools
       lazygit
