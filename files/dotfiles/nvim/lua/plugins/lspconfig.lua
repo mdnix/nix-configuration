@@ -36,5 +36,30 @@ vim.lsp.config('zls', {
   root_markers = {"zls.json", "build.zig", ".git"},
 })
 
+vim.lsp.config('rust_analyzer', {
+  capabilities = capabilities,
+  cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
+  root_markers = { "Cargo.toml", ".git" },
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true,
+      },
+      check = {
+        command = "clippy",
+      },
+      diagnostics = {
+        enable = true,
+      },
+      procMacro = {
+        enable = true,
+      },
+      inlayHints = {
+        enable = true,
+      },
+    },
+  },
+})
 -- Enable the LSP servers
-vim.lsp.enable({'gopls', 'nixd', 'zls'})
+vim.lsp.enable({'gopls', 'nixd', 'zls', 'rust_analyzer'})
