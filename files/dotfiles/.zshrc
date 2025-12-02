@@ -159,8 +159,8 @@ kubectl() {
 }
 
 oargo () {
-  kubecolor -n syn get secret steward -o json --as cluster-admin | jq -r .data.token | base64 --decode | wl-copy
-  kubecolor -n syn port-forward svc/syn-argocd-server 8080:80 --as cluster-admin
+  kubecolor -n syn get secret steward -o json --as system:admin | jq -r .data.token | base64 --decode | wl-copy
+  kubecolor -n syn port-forward svc/syn-argocd-server 8080:80 --as system:admin
 }
 
 spks-argo () {
