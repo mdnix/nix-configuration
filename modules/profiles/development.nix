@@ -43,6 +43,7 @@ in
       rustc
       cargo
       rust-analyzer
+      rustup
       zig
       zls
       nixd
@@ -56,6 +57,8 @@ in
       kubernetes-helm
       openshift
       talosctl
+      omnictl
+      packer
 
       # Development tools
       lazygit
