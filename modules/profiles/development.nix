@@ -53,6 +53,7 @@ in
       kubectx
       kubecolor
       krew
+      k9s
       kind
       kubernetes-helm
       openshift
