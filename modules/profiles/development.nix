@@ -60,6 +60,7 @@ in
       talosctl
       omnictl
       packer
+      opentofu
 
       # Development tools
       lazygit
