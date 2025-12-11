@@ -58,6 +58,7 @@ in
       kubernetes-helm
       openshift
       talosctl
+      talhelper
       omnictl
       packer
       opentofu

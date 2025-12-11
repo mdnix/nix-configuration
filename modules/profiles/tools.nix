@@ -23,6 +23,7 @@ in
       procs
 
       # Network tools
+      dnsutils
       nmap
       netcat-gnu
       tcpdump
