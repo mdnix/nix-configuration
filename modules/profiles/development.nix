@@ -72,6 +72,9 @@ in
       # Virtualization
       virt-manager
       qemu
+
+      sops
+      age
     ];
 
     # Enable fonts for development
