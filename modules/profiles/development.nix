@@ -10,45 +10,66 @@ let
 in
 {
   options.profiles.development.enable = mkEnableOption "Developer environment packages and tools";
-
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs.unstable; [
-      # editors & shells
-      neovim
-      zed-editor
-      vscode
-      heynote
+      # Core utilities
       git
       gnupg
       wget
       curl
       direnv
       nix-direnv
+      sops
+      age
+
+      # Shell & terminal
+      bash
+      zsh-completions
       tmux
       starship
-      zsh-completions
-      bash
 
-      # languages / build essentials
+      # Editors & IDEs
+      neovim
+      vscode
+      zed-editor
+      heynote
+
+      # Build tools & compilers
       gcc
       gnumake
       pkg-config
       cmake
+
+      # Go
       go
       gopls
       delve
+
+      # Python
       python3
+
+      # JavaScript/TypeScript
       nodejs
       bun
+
+      # Rust
       rustc
       cargo
       rust-analyzer
       rustup
+
+      # Zig
       zig
       zls
+
+      # Nix
       nixd
 
-      # container & k8s
+      # Container tools
+      lazydocker
+      devpod
+
+      # Kubernetes tools
       kubectl
       kubectx
       kubecolor
@@ -56,25 +77,28 @@ in
       k9s
       kind
       kubernetes-helm
+
+      # Platform tools
       openshift
       talosctl
       talhelper
       omnictl
+
+      # Infrastructure as Code
       packer
       opentofu
 
-      # Development tools
+      # Git tools
       lazygit
-      lazydocker
-      devpod
+      gitleaks
+      pre-commit
+
+      # SSH/Security
       keychain
 
       # Virtualization
       virt-manager
       qemu
-
-      sops
-      age
     ];
 
     # Enable fonts for development
