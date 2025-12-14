@@ -4,7 +4,6 @@
   imports = [
     ./hardware-configuration.nix
 
-
     # System modules
     ../../modules/system/fonts.nix
     ../../modules/system/nix.nix
