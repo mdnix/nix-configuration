@@ -39,6 +39,7 @@ in
       gnumake
       pkg-config
       cmake
+      just
 
       # Go
       go
@@ -92,6 +93,7 @@ in
       lazygit
       gitleaks
       pre-commit
+      conform
 
       # SSH/Security
       keychain
