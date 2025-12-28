@@ -40,6 +40,7 @@ in
       pkg-config
       cmake
       just
+      go-task
 
       # Go
       go
@@ -74,10 +75,12 @@ in
       kubectl
       kubectx
       kubecolor
+      kubectl-cnpg
       krew
       k9s
       kind
       kubernetes-helm
+      fluxcd
 
       # Platform tools
       openshift
