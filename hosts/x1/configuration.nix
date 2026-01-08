@@ -70,8 +70,8 @@
 
   # Keyboard layout
   services.xserver.xkb = {
-    layout = "ch";
-    options = "nodeadkeys";
+    layout = "us,ch";
+    options = "grp:alt_shift_toggle";
   };
 
   # Enable zsh

@@ -42,10 +42,10 @@
 
   # Keyboard layout
   services.xserver.xkb = {
-    layout = "ch";
-    variant = "de_nodeadkeys";
+    layout = "us,ch";
+    options = "grp:alt_shift_toggle";
   };
-  console.keyMap = "sg";
+  console.keyMap = "us";
 
   # Enable zsh
   programs.zsh.enable = true;

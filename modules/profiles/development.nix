@@ -41,6 +41,7 @@ in
       cmake
       just
       go-task
+      protobuf_33
 
       # Go
       go

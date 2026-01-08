@@ -40,5 +40,8 @@ in
 
     # Enable Mullvad VPN
     services.mullvad-vpn.enable = true;
+
+    # Enable netbird
+    services.netbird.enable = true;
   };
 }
