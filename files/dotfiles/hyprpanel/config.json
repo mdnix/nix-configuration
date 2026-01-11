@@ -370,10 +370,17 @@
   "theme.bar.buttons.modules.cava.border": "#73daca",
   "menus.transition": "crossfade",
   "notifications.position": "top right",
+  "notifications.timeout": 5000,
+  "notifications.monitor": 0,
+  "osd.enable": true,
+  "osd.duration": 2500,
+  "osd.orientation": "horizontal",
+  "osd.monitor": 0,
   "menus.clock.weather.location": "9030, Mariakerke",
   "menus.clock.weather.unit": "metric",
   "menus.clock.time.military": true,
-  "bar.launcher.autoDetectIcon": true,
+  "bar.launcher.autoDetectIcon": false,
+  "bar.launcher.icon": "󱄅",
   "bar.battery.hideLabelWhenFull": false,
   "bar.notifications.show_total": false,
   "bar.notifications.hideCountWhenZero": true,
@@ -398,7 +405,7 @@
   "theme.bar.buttons.radius": "1em",
   "theme.bar.buttons.padding_x": "0.7rem",
   "bar.layouts": {
-    "0": {
+    "*": {
       "left": [
         "dashboard",
         "workspaces",
@@ -412,46 +419,8 @@
         "media",
         "cpu",
         "ram",
-        "volume",
-        "network",
-        "bluetooth",
-        "battery"
-      ]
-    },
-    "1": {
-      "left": [
-        "dashboard",
-        "workspaces",
-        "windowtitle"
-      ],
-      "middle": [
-        "notifications",
-        "clock"
-      ],
-      "right": [
-        "media",
-        "cpu",
-        "ram",
-        "volume",
-        "network",
-        "bluetooth",
-        "battery"
-      ]
-    },
-    "2": {
-      "left": [
-        "dashboard",
-        "workspaces",
-        "windowtitle"
-      ],
-      "middle": [
-        "notifications",
-        "clock"
-      ],
-      "right": [
-        "media",
-        "cpu",
-        "ram",
+        "kbinput",
+        "systray",
         "volume",
         "network",
         "bluetooth",
@@ -495,6 +464,7 @@
   ],
   "menus.clock.weather.key": "18314f574825468496c183537250502",
   "bar.customModules.cava.showActiveOnly": true,
+  "bar.systray.ignore": ["nm-applet", "blueman", "blueman-applet", "blueberry", "bluetooth"],
   "bar.systray.customIcons": {
     "jamesdsp": {
       "icon": "󰺢",
@@ -503,5 +473,6 @@
   },
   "bar.customModules.storage.paths": [
     "/"
-  ]
+  ],
+  "bar.customModules.ram.labelType": "used"
 }
