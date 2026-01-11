@@ -9,28 +9,26 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       require("rose-pine").setup({
-        variant = "main",          -- "main" | "moon" | "dawn"
+        variant = "main",
         dark_variant = "main",
-        disable_background = true,        -- keep backgrounds enabled
-        disable_float_background = true,  -- so we can set them to black
+        disable_background = true,
+        disable_float_background = true,
         disable_italics = false,
         highlight_groups = {
           -- core windows
-          Normal          = { bg = "#000000" },
-          NormalNC        = { bg = "#000000" },
-          NormalFloat     = { bg = "#000000" },
-          FloatBorder     = { bg = "#000000" },
-          SignColumn      = { bg = "#000000" },
-          LineNr          = { bg = "#000000" },
-          CursorLine      = { bg = "#000000" },
-          CursorLineNr    = { bg = "#000000" },
-
+          Normal          = { bg = "#131313" },
+          NormalNC        = { bg = "#131313" },
+          NormalFloat     = { bg = "#131313" },
+          FloatBorder     = { bg = "#131313" },
+          SignColumn      = { bg = "#131313" },
+          LineNr          = { bg = "#131313" },
+          CursorLine      = { bg = "#1a1a1a" },
+          CursorLineNr    = { bg = "#131313" },
           -- popups/menus
-          Pmenu           = { bg = "#000000" },
-          PmenuSel        = { bg = "#111111" },
+          Pmenu           = { bg = "#131313" },
+          PmenuSel        = { bg = "#1e1e1e" },
         },
       })
-
       vim.cmd.colorscheme("rose-pine")
     end,
   },

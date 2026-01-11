@@ -1,16 +1,16 @@
 window {
     margin: 0px;
-    border: 2px solid #877cc5;
-    background-color: rgba(26, 26, 26, 0.95);
-    border-radius: 10px;
+    border: 2px solid #c4a7e7;
+    background-color: rgba(21, 19, 32, 0.95);
+    border-radius: 0px;
 }
 
 #input {
     margin: 10px;
-    border: 2px solid #b4adbd;
-    color: #ffffff;
-    background-color: rgba(26, 26, 26, 0.8);
-    border-radius: 5px;
+    border: 2px solid #6e6a86;
+    color: #e0def4;
+    background-color: rgba(31, 29, 46, 0.8);
+    border-radius: 0px;
     padding: 10px;
     font-size: 14px;
 }
@@ -35,17 +35,17 @@ window {
 #text {
     margin: 5px;
     border: none;
-    color: #ffffff;
+    color: #e0def4;
 }
 
 #entry {
     background-color: transparent;
     margin: 2px;
-    border-radius: 5px;
+    border-radius: 0px;
     padding: 8px;
 }
 
 #entry:selected {
-    background-color: rgba(135, 124, 197, 0.3);
-    border: 1px solid #877cc5;
+    background-color: rgba(196, 167, 231, 0.3);
+    border: 1px solid #c4a7e7;
 }
