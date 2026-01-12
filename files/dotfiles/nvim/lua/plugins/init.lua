@@ -49,8 +49,36 @@ require('lazy').setup({
 
   -- Git
   {'tpope/vim-fugitive'},
-  {'airblade/vim-gitgutter'},
   {'tpope/vim-rhubarb'},
+  {'lewis6991/gitsigns.nvim'},
+
+  -- Which-key (keybinding popup)
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+  },
+
+  -- Noice (pretty cmdline, messages, notifications)
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+
+  -- Alpha (dashboard/startup screen)
+  {
+    "goolord/alpha-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+
+  -- Oil (file explorer as buffer)
+  {
+    'stevearc/oil.nvim',
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
 
   -- Fuzzy finder
   {'nvim-lua/plenary.nvim'},
@@ -94,3 +122,8 @@ require('plugins.treesitter')
 require('plugins.lspconfig')
 require('plugins.cmp')
 require('plugins.harpoon')
+require('plugins.whichkey')
+require('plugins.oil')
+require('plugins.gitsigns')
+require('plugins.noice')
+require('plugins.alpha')

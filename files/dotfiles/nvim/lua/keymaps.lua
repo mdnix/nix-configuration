@@ -3,8 +3,8 @@
 -- Remap jj to ESC
 vim.keymap.set('i', 'jj', '<ESC>')
 
--- Exit to tree --
-vim.keymap.set('n', '<Leader>pv', vim.cmd.Ex)
+-- File explorer (Oil)
+vim.keymap.set('n', '<Leader>pv', '<CMD>Oil<CR>')
 
 -- Split windows
 vim.keymap.set('n', '<Leader>h', ':split<CR>')
@@ -17,15 +17,15 @@ vim.keymap.set('n', '<Leader>-', ':resize -2<CR>')
 vim.keymap.set('n', '<Leader><Right>', ':vertical resize +2<CR>')
 vim.keymap.set('n', '<Leader><Left>', ':vertical resize -2<CR>')
 
--- Git commands
-vim.keymap.set('n', '<Leader>ga', ':Gwrite<CR>')
-vim.keymap.set('n', '<Leader>gc', ':Git commit --verbose<CR>')
-vim.keymap.set('n', '<Leader>gsh', ':Git push<CR>')
-vim.keymap.set('n', '<Leader>gll', ':Git pull<CR>')
-vim.keymap.set('n', '<Leader>gs', ':Git<CR>')
-vim.keymap.set('n', '<Leader>gb', ':Git blame<CR>')
-vim.keymap.set('n', '<Leader>gd', ':Gvdiffsplit<CR>')
-vim.keymap.set('n', '<Leader>gr', ':GRemove<CR>')
+-- Git commands (fugitive) - capital G to avoid LSP conflicts
+vim.keymap.set('n', '<Leader>Ga', ':Gwrite<CR>')
+vim.keymap.set('n', '<Leader>Gc', ':Git commit --verbose<CR>')
+vim.keymap.set('n', '<Leader>Gp', ':Git push<CR>')
+vim.keymap.set('n', '<Leader>Gl', ':Git pull<CR>')
+vim.keymap.set('n', '<Leader>Gs', ':Git<CR>')
+vim.keymap.set('n', '<Leader>Gb', ':Git blame<CR>')
+vim.keymap.set('n', '<Leader>Gd', ':Gvdiffsplit<CR>')
+vim.keymap.set('n', '<Leader>Gr', ':GRemove<CR>')
 
 -- Navigate splits
 vim.keymap.set('n', '<C-j>', '<C-w>j')
@@ -51,11 +51,9 @@ vim.keymap.set('n', '<Leader>z', ':bp<CR>')
 vim.keymap.set('n', '<Leader>x', ':bn<CR>')
 vim.keymap.set('n', '<Leader>c', ':bd<CR>')
 
--- Tabs
-vim.keymap.set('n', '<C-t>', ':tabnew<CR>')
-vim.keymap.set('n', '<C-c>', ':tabclose<CR>')
-vim.keymap.set('n', '<C-[>', ':tabprevious<CR>')
-vim.keymap.set('n', '<C-]>', ':tabnext<CR>')
+-- Tabs (use gt/gT for next/prev, they're built-in)
+vim.keymap.set('n', '<Leader>tn', ':tabnew<CR>')
+vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>')
 
 -- Open current line on GitHub
 vim.keymap.set('n', '<Leader>o', ':.GBrowse<CR>')
@@ -72,6 +70,10 @@ vim.keymap.set('i', '`', '``<Esc>ha')
 vim.keymap.set('n', '<Leader>f', ':Telescope find_files<CR>')
 vim.keymap.set('n', '<Leader>g', ':Telescope live_grep<CR>')
 vim.keymap.set('n', '<Leader>b', ':Telescope buffers<CR>')
+
+-- Diagnostics
+vim.keymap.set('n', '<Leader>dd', vim.diagnostic.open_float, { desc = "Show diagnostic" })
+vim.keymap.set('n', '<Leader>dl', vim.diagnostic.setloclist, { desc = "Diagnostic list" })
 
 -- LSP Keymaps
 vim.keymap.set('n', '<Leader>gd', vim.lsp.buf.definition)
