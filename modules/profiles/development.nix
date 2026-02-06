@@ -88,6 +88,7 @@ in
       talosctl
       talhelper
       omnictl
+      exoscale-cli
 
       # Infrastructure as Code
       packer

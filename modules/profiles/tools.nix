@@ -43,6 +43,7 @@ in
       file
       lsof
       bat
+      xxd
 
       # Text processing (moved from development profile)
       jq
