@@ -29,46 +29,22 @@ in
     ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/starship.toml";
 
     # Neovim configuration
-    ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/nvim";
-      recursive = true;
-      force = true;
-    };
+    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/nvim";
 
     # Ghostty configuration
-    ".config/ghostty" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
-      recursive = true;
-      force = true;
-    };
+    ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
 
     # Hyprland configuration
-    ".config/hypr" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
-      recursive = true;
-      force = true;
-    };
+    ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
 
     # Hyprpanel configuration
-    ".config/hyprpanel" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hyprpanel";
-      recursive = true;
-      force = true;
-    };
+    ".config/hyprpanel".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hyprpanel";
 
     # Wofi configuration
-    ".config/wofi" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wofi";
-      recursive = true;
-      force = true;
-    };
+    ".config/wofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wofi";
 
     # Wallpapers
-    ".config/wallpapers" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${wallpapersPath}";
-      recursive = true;
-      force = true;
-    };
+    ".config/wallpapers".source = config.lib.file.mkOutOfStoreSymlink "${wallpapersPath}";
   };
 
   # Let Home Manager install and manage itself
