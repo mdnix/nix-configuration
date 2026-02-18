@@ -1,5 +1,5 @@
 theme = Rose Pine
-background = #0B1215
+background = #121212
 #window-decoration = none
 gtk-titlebar = false
 font-family = Fira Code
