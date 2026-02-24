@@ -106,6 +106,9 @@ in
       # Virtualization
       virt-manager
       qemu
+
+      # Databases
+      postgresql
     ];
 
     # Enable fonts for development
@@ -115,7 +118,12 @@ in
 
     # Enable virtualization
     virtualisation = {
-      docker.enable = true;
+      docker = {
+        enable = true;
+        daemon.settings = {
+          dns = [ "1.1.1.1" "8.8.8.8" ];
+        };
+      };
       libvirtd.enable = true;
     };
 
