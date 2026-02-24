@@ -27,6 +27,7 @@ in
 
       # Note-taking and productivity
       obsidian
+      basalt
       imagemagick
       _1password-gui
     ];
