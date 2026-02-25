@@ -116,6 +116,8 @@ in
       nerd-fonts.fira-code
     ];
 
+    networking.firewall.trustedInterfaces = [ "docker0" "br-+" ];
+
     # Enable virtualization
     virtualisation = {
       docker = {
