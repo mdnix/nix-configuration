@@ -113,7 +113,7 @@ in
 
     # Enable fonts for development
     fonts.packages = with pkgs.unstable; [
-      nerd-fonts.fira-code
+      nerd-fonts.blex-mono
     ];
 
     networking.firewall.trustedInterfaces = [ "docker0" "br-+" ];

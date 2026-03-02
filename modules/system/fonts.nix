@@ -12,7 +12,7 @@
       noto-fonts-color-emoji
 
       # Nerd fonts
-      nerd-fonts.fira-code
+      nerd-fonts.blex-mono
       nerd-fonts.meslo-lg
 
       # Emoji fonts
@@ -26,7 +26,7 @@
       defaultFonts = {
         serif = [ "Noto Serif" ];
         sansSerif = [ "Inter" "Noto Sans" ];
-        monospace = [ "FiraCode Nerd Font" "Noto Sans Mono" ];
+        monospace = [ "BlexMono Nerd Font" "Noto Sans Mono" ];
         emoji = [ "Noto Color Emoji" "OpenMoji Color" ];
       };
     };
