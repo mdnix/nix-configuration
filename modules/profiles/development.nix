@@ -73,6 +73,7 @@ in
       devpod
 
       # Kubernetes tools
+      clusterctl
       kubectl
       kubectx
       kubecolor
@@ -89,6 +90,7 @@ in
       talhelper
       omnictl
       exoscale-cli
+      hcloud
 
       # Infrastructure as Code
       packer
