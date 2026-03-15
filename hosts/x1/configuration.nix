@@ -64,8 +64,8 @@
   # Hostname
   networking.hostName = "x1";
 
-  # Timezone and locale
-  time.timeZone = "Europe/Zurich";
+  # Automatic timezone based on geolocation
+  services.automatic-timezoned.enable = true;
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Keyboard layout
