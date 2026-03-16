@@ -78,6 +78,7 @@ in
       kubectx
       kubecolor
       kubectl-cnpg
+      kubectl-df-pv
       krew
       k9s
       kind
@@ -101,6 +102,7 @@ in
       gitleaks
       pre-commit
       conform
+      gh
 
       # SSH/Security
       keychain
