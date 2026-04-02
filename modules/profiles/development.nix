@@ -21,6 +21,7 @@ in
       nix-direnv
       sops
       age
+      gettext
 
       # Shell & terminal
       bash
