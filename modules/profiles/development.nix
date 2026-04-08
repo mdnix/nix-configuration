@@ -93,6 +93,7 @@ in
       omnictl
       exoscale-cli
       hcloud
+      openstack-rs
 
       # Infrastructure as Code
       packer
