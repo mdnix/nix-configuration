@@ -122,6 +122,7 @@ in
       nerd-fonts.blex-mono
     ];
 
+    networking.nftables.enable = true;
     networking.firewall.trustedInterfaces = [ "docker0" "br-+" ];
 
     # Enable virtualization
@@ -130,10 +131,14 @@ in
         enable = true;
         daemon.settings = {
           dns = [ "1.1.1.1" "8.8.8.8" ];
+          firewall-backend = "nftables";
         };
       };
       libvirtd.enable = true;
     };
+
+    # Docker's nftables backend shells out to `nft`; service PATH is restricted.
+    systemd.services.docker.path = [ pkgs.nftables ];
 
     # Add user to libvirtd and docker groups
     users.users.marco.extraGroups = [ "libvirtd" "docker" ];

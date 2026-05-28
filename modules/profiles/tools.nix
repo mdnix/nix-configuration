@@ -30,7 +30,6 @@ in
       wireshark
       speedtest-cli
       iperf3
-      iptables-legacy
       ipcalc
 
       # File utilities
