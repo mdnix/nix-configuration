@@ -163,7 +163,7 @@ oargo () {
   kubecolor -n syn port-forward svc/syn-argocd-server 8080:80 --as system:admin
 }
 
-spks-argo () {
+kargo () {
   kubectl -n syn get secret steward -o json | jq -r .data.token | base64 --decode | wl-copy
   kubectl -n syn  port-forward services/syn-argocd-server 8080:80
 }
