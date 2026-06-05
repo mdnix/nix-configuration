@@ -1,0 +1,111 @@
+/* Rosé Pine — ported from the old HyprPanel theme.
+   bar bg #1f1d2e @ 50% · iris border #c4a7e7 · rounded buttons · per-module accents */
+
+* {
+  font-family: "BlexMono Nerd Font", "Symbols Nerd Font Mono";
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: #e0def4;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background: rgba(31, 29, 46, 0.5);
+  border: 1px solid #c4a7e7;
+  border-radius: 14px;
+  padding: 0 4px;
+  margin: 4px 0;
+}
+
+#custom-launcher,
+#window,
+#custom-notification,
+#clock,
+#mpris,
+#cpu,
+#memory,
+#language,
+#tray,
+#pulseaudio,
+#network,
+#bluetooth,
+#battery {
+  padding: 0 10px;
+  margin: 3px 2px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* dashboard/launcher */
+#custom-launcher {
+  color: #f6c177;
+  font-size: 16px;
+  padding: 0 12px;
+}
+
+/* workspaces */
+#workspaces {
+  background: transparent;
+  margin: 3px 2px;
+}
+#workspaces button {
+  color: #6e6a86;
+  padding: 0 7px;
+  margin: 0 1px;
+  border-radius: 12px;
+  background: transparent;
+}
+#workspaces button.occupied { color: #c4a7e7; }
+#workspaces button.active {
+  color: #151320;
+  background: #c4a7e7;
+}
+#workspaces button:hover {
+  background: #26233a;
+  color: #e0def4;
+}
+
+#window            { color: #ebbcba; background: transparent; }
+#custom-notification { color: #c4a7e7; }
+#clock             { color: #eb6f92; }
+#mpris             { color: #c4a7e7; }
+#cpu               { color: #eb6f92; }
+#memory            { color: #f6c177; }
+#language          { color: #9ccfd8; }
+#pulseaudio        { color: #eb6f92; }
+#network           { color: #c4a7e7; }
+#bluetooth         { color: #9ccfd8; }
+#battery           { color: #f6c177; }
+
+#pulseaudio.muted  { color: #6e6a86; }
+#battery.warning   { color: #f6c177; }
+#battery.critical  { color: #eb6f92; }
+#battery.charging  { color: #9ccfd8; }
+
+@keyframes blink-critical {
+  to { color: #151320; background: #eb6f92; }
+}
+#battery.critical:not(.charging) {
+  animation: blink-critical 1s steps(2) infinite alternate;
+}
+
+#tray { background: transparent; }
+#tray menu {
+  background: #151320;
+  color: #e0def4;
+  border: 1px solid #26233a;
+}
+
+tooltip {
+  background: #151320;
+  border: 1px solid #26233a;
+  border-radius: 8px;
+  color: #e0def4;
+}
+tooltip label { color: #e0def4; }

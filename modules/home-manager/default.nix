@@ -37,8 +37,14 @@ in
     # Hyprland configuration
     ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
 
-    # Hyprpanel configuration
-    ".config/hyprpanel".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hyprpanel";
+    # Waybar configuration
+    ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/waybar";
+
+    # SwayNC notification daemon configuration
+    ".config/swaync".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/swaync";
+
+    # wlogout power menu configuration
+    ".config/wlogout".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wlogout";
 
     # Wofi configuration
     ".config/wofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wofi";

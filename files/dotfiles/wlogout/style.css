@@ -1,0 +1,36 @@
+/* Rosé Pine power menu — matches Waybar/SwayNC */
+
+* {
+  font-family: "BlexMono Nerd Font";
+  font-size: 20px;
+  background-image: none;
+  box-shadow: none;
+}
+
+window {
+  background: rgba(21, 19, 32, 0.85);
+}
+
+button {
+  color: #e0def4;
+  background: #1f1d2e;
+  border: 1px solid #26233a;
+  border-radius: 16px;
+  margin: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+button:focus,
+button:hover {
+  background: #26233a;
+  border: 1px solid #c4a7e7;
+  color: #c4a7e7;
+}
+
+/* per-action accent on hover */
+#lock:hover     { border-color: #9ccfd8; color: #9ccfd8; }
+#suspend:hover  { border-color: #f6c177; color: #f6c177; }
+#logout:hover   { border-color: #31748f; color: #31748f; }
+#reboot:hover   { border-color: #ebbcba; color: #ebbcba; }
+#shutdown:hover { border-color: #eb6f92; color: #eb6f92; }

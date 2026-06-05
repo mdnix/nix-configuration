@@ -24,11 +24,16 @@ in
       # Hyprland ecosystem
       hyprland
       hyprpaper
-      hyprpanel
       hypridle
       hyprlock
       hyprsunset
       wofi
+
+      # Bar + notifications (HyprPanel replacement)
+      waybar
+      swaynotificationcenter
+      playerctl
+      wlogout
 
       # Wayland utilities
       qt6.qtwayland

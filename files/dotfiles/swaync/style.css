@@ -1,0 +1,102 @@
+/* Rosé Pine — matches the Waybar / old HyprPanel notification theme */
+
+* {
+  font-family: "BlexMono Nerd Font";
+  font-size: 14px;
+}
+
+.control-center {
+  background: rgba(21, 19, 32, 0.96);
+  border: 1px solid #26233a;
+  border-radius: 12px;
+  color: #e0def4;
+  margin: 8px;
+}
+
+.control-center .widget-title {
+  color: #c4a7e7;
+  font-size: 17px;
+  margin: 8px;
+}
+.control-center .widget-title button {
+  background: #eb6f92;
+  color: #151320;
+  border-radius: 8px;
+  padding: 4px 12px;
+}
+.control-center .widget-title button:hover {
+  background: #ebbcba;
+}
+
+.notification-row {
+  background: transparent;
+}
+.notification {
+  background: #1f1d2e;
+  border: 1px solid #26233a;
+  border-radius: 10px;
+  margin: 6px 8px;
+  padding: 0;
+}
+.notification.critical {
+  border: 1px solid #eb6f92;
+}
+.notification-content {
+  color: #e0def4;
+  padding: 8px;
+}
+.summary {
+  color: #c4a7e7;
+  font-weight: bold;
+}
+.body {
+  color: #e0def4;
+}
+.time {
+  color: #908caa;
+}
+.close-button {
+  background: #eb6f92;
+  color: #151320;
+  border-radius: 8px;
+  margin: 4px;
+  padding: 2px 6px;
+}
+.close-button:hover {
+  background: #ebbcba;
+}
+
+.notification-action,
+.notification-default-action {
+  background: transparent;
+  color: #e0def4;
+  border-radius: 8px;
+}
+.notification-action:hover {
+  background: #26233a;
+}
+
+.widget-dnd {
+  color: #e0def4;
+  margin: 8px;
+  font-size: 15px;
+}
+.widget-dnd > switch {
+  background: #26233a;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.widget-dnd > switch:checked {
+  background: #c4a7e7;
+}
+.widget-dnd > switch slider {
+  background: #6e6a86;
+  border-radius: 11px;
+}
+
+/* floating popups */
+.floating-notifications.background .notification {
+  background: rgba(21, 19, 32, 0.96);
+  border: 1px solid #26233a;
+  border-radius: 10px;
+}
