@@ -43,6 +43,7 @@ in
       just
       go-task
       protobuf_33
+      buf
 
       # Go
       go
