@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -89,13 +90,14 @@ in
       fluxcd
 
       # Platform tools
+      inputs.vshn-flakes.packages.${pkgs.stdenv.hostPlatform.system}.commodore
       openshift
       talosctl
-      talhelper
       omnictl
       exoscale-cli
       hcloud
       openstack-rs
+      vault
 
       # Infrastructure as Code
       packer

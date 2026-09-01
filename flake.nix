@@ -15,6 +15,8 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
+    vshn-flakes.url = "github:vshn/nix-flakes";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

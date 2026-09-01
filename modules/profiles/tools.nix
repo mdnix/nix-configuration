@@ -31,6 +31,7 @@ in
       speedtest-cli
       iperf3
       ipcalc
+      sshuttle
 
       # File utilities
       rsync
