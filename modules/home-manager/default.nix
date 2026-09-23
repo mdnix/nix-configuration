@@ -2,6 +2,7 @@
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  c = import ../theme/palette.nix;
   # Path to your dotfiles in the git repo (absolute path for out-of-store symlinks)
   dotfilesPath = "${config.home.homeDirectory}/Documents/gitrepos/nix-configuration/files/dotfiles";
   wallpapersPath = "${config.home.homeDirectory}/Documents/gitrepos/nix-configuration/files/wallpapers";
@@ -46,6 +47,9 @@ in
     # wlogout power menu configuration
     ".config/wlogout".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wlogout";
 
+    # btop — only btop.conf is managed; its themes dir stays btop's own.
+    ".config/btop/btop.conf".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/btop/btop.conf";
+
     # Wofi configuration
     ".config/wofi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/wofi";
 
@@ -65,6 +69,25 @@ in
       shuffle
     ];
     theme = spicePkgs.themes.ziro;
-    colorScheme = "rose-pine-moon";
+    # Spicetify ships no Gruvbox Material scheme, so the palette is mapped onto
+    # its colour slots directly rather than approximated with a bundled one.
+    customColorScheme = {
+      text = c.fg;
+      subtext = c.fgDim;
+      sidebar-text = c.fg;
+      main = c.bg;
+      sidebar = c.bgDark;
+      player = c.bgDark;
+      card = c.bgLight;
+      shadow = c.bgDarker;
+      selected-row = c.fgFaint;
+      button = c.accent;
+      button-active = c.aqua;
+      button-disabled = c.bgMuted;
+      tab-active = c.bgSelection;
+      notification = c.bgLight;
+      notification-error = c.red;
+      misc = c.bgMuted;
+    };
   };
 }

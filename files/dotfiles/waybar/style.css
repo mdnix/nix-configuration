@@ -1,23 +1,26 @@
-/* Rosé Pine — ported from the old HyprPanel theme.
-   bar bg #1f1d2e @ 50% · iris border #c4a7e7 · rounded buttons · per-module accents */
+/* Gruvbox Material. Every colour below is a name defined by
+   ~/.config/theme/colors.css, which modules/theme/gruvbox.nix generates from
+   modules/theme/palette.nix — there are no hex literals in this file. */
+@import url("file:///home/marco/.config/theme/colors.css");
 
 * {
-  font-family: "BlexMono Nerd Font", "Symbols Nerd Font Mono";
+  font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font";
   font-size: 13px;
-  font-weight: 500;
+  /* Single-weight face: 500 would only ever be synthesized. */
+  font-weight: normal;
   min-height: 0;
 }
 
 window#waybar {
   background: transparent;
-  color: #e0def4;
+  color: @fg;
 }
 
 .modules-left,
 .modules-center,
 .modules-right {
-  background: rgba(31, 29, 46, 0.5);
-  border: 1px solid #c4a7e7;
+  background: alpha(@bg_dark, 0.85);
+  border: 1px solid @bg_sel;
   border-radius: 14px;
   padding: 0 4px;
   margin: 4px 0;
@@ -32,6 +35,8 @@ window#waybar {
 #memory,
 #language,
 #tray,
+#idle_inhibitor,
+#power-profiles-daemon,
 #pulseaudio,
 #network,
 #bluetooth,
@@ -39,12 +44,12 @@ window#waybar {
   padding: 0 10px;
   margin: 3px 2px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: alpha(@fg, 0.05);
 }
 
 /* dashboard/launcher */
 #custom-launcher {
-  color: #f6c177;
+  color: @yellow;
   font-size: 16px;
   padding: 0 12px;
 }
@@ -55,41 +60,50 @@ window#waybar {
   margin: 3px 2px;
 }
 #workspaces button {
-  color: #6e6a86;
+  color: @bg_muted;
   padding: 0 7px;
   margin: 0 1px;
   border-radius: 12px;
   background: transparent;
 }
-#workspaces button.occupied { color: #c4a7e7; }
+#workspaces button.occupied { color: @fg_dim; }
 #workspaces button.active {
-  color: #151320;
-  background: #c4a7e7;
+  color: @bg;
+  background: @accent;
 }
 #workspaces button:hover {
-  background: #26233a;
-  color: #e0def4;
+  background: @bg_light;
+  color: @fg;
 }
 
-#window            { color: #ebbcba; background: transparent; }
-#custom-notification { color: #c4a7e7; }
-#clock             { color: #eb6f92; }
-#mpris             { color: #c4a7e7; }
-#cpu               { color: #eb6f92; }
-#memory            { color: #f6c177; }
-#language          { color: #9ccfd8; }
-#pulseaudio        { color: #eb6f92; }
-#network           { color: #c4a7e7; }
-#bluetooth         { color: #9ccfd8; }
-#battery           { color: #f6c177; }
+#window            { color: @fg_dim; background: transparent; }
+#custom-notification { color: @aqua; }
+#clock             { color: @fg; }
+#mpris             { color: @purple; }
+#cpu               { color: @red; }
+#memory            { color: @orange; }
+#language          { color: @aqua; }
+#pulseaudio        { color: @yellow; }
+#network           { color: @blue; }
+#bluetooth         { color: @aqua; }
+#battery           { color: @green; }
+#idle_inhibitor    { color: @fg_faint; }
+#power-profiles-daemon { color: @fg_dim; }
 
-#pulseaudio.muted  { color: #6e6a86; }
-#battery.warning   { color: #f6c177; }
-#battery.critical  { color: #eb6f92; }
-#battery.charging  { color: #9ccfd8; }
+/* Only the states that deviate from the resting look get a colour, so the bar
+   stays quiet until something is actually engaged. */
+#idle_inhibitor.activated { color: @orange; }
+#power-profiles-daemon.performance  { color: @red; }
+#power-profiles-daemon.balanced     { color: @fg_dim; }
+#power-profiles-daemon.power-saver  { color: @green; }
+
+#pulseaudio.muted  { color: @fg_faint; }
+#battery.warning   { color: @yellow; }
+#battery.critical  { color: @red; }
+#battery.charging  { color: @green; }
 
 @keyframes blink-critical {
-  to { color: #151320; background: #eb6f92; }
+  to { color: @bg; background: @red; }
 }
 #battery.critical:not(.charging) {
   animation: blink-critical 1s steps(2) infinite alternate;
@@ -97,15 +111,15 @@ window#waybar {
 
 #tray { background: transparent; }
 #tray menu {
-  background: #151320;
-  color: #e0def4;
-  border: 1px solid #26233a;
+  background: @bg_dark;
+  color: @fg;
+  border: 1px solid @bg_sel;
 }
 
 tooltip {
-  background: #151320;
-  border: 1px solid #26233a;
+  background: @bg_dark;
+  border: 1px solid @bg_sel;
   border-radius: 8px;
-  color: #e0def4;
+  color: @fg;
 }
-tooltip label { color: #e0def4; }
+tooltip label { color: @fg; }

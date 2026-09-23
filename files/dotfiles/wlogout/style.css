@@ -1,20 +1,21 @@
-/* Rosé Pine power menu — matches Waybar/SwayNC */
+/* Gruvbox Material — colours come from ~/.config/theme/colors.css. */
+@import url("file:///home/marco/.config/theme/colors.css");
 
 * {
-  font-family: "BlexMono Nerd Font";
+  font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font";
   font-size: 20px;
   background-image: none;
   box-shadow: none;
 }
 
 window {
-  background: rgba(21, 19, 32, 0.85);
+  background: alpha(@bg_darker, 0.85);
 }
 
 button {
-  color: #e0def4;
-  background: #1f1d2e;
-  border: 1px solid #26233a;
+  color: @fg;
+  background: @bg;
+  border: 1px solid @bg_sel;
   border-radius: 16px;
   margin: 14px;
   outline: none;
@@ -23,14 +24,14 @@ button {
 
 button:focus,
 button:hover {
-  background: #26233a;
-  border: 1px solid #c4a7e7;
-  color: #c4a7e7;
+  background: @bg_light;
+  border: 1px solid @accent;
+  color: @accent;
 }
 
 /* per-action accent on hover */
-#lock:hover     { border-color: #9ccfd8; color: #9ccfd8; }
-#suspend:hover  { border-color: #f6c177; color: #f6c177; }
-#logout:hover   { border-color: #31748f; color: #31748f; }
-#reboot:hover   { border-color: #ebbcba; color: #ebbcba; }
-#shutdown:hover { border-color: #eb6f92; color: #eb6f92; }
+#lock:hover     { border-color: @aqua;   color: @aqua; }
+#suspend:hover  { border-color: @yellow; color: @yellow; }
+#logout:hover   { border-color: @blue;   color: @blue; }
+#reboot:hover   { border-color: @orange; color: @orange; }
+#shutdown:hover { border-color: @red;    color: @red; }

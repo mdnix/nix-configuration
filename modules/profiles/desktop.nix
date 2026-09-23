@@ -35,6 +35,12 @@ in
       playerctl
       wlogout
 
+      # Menu / clipboard / emoji stack driven by hypr-menu
+      cliphist
+      bemoji
+      wtype
+      jq
+
       # Wayland utilities
       qt6.qtwayland
       qt6Packages.qt6ct
@@ -61,10 +67,14 @@ in
       brightnessctl
       cheese
 
+      # Menu and keybinding helpers from pkgs/default.nix. They live in the
+      # stable set the additions overlay applies to, not in pkgs.unstable.
+      pkgs.hypr-menu
+      pkgs.hypr-keybinds
+
       # System utilities
       networkmanagerapplet
       blueman
-      gnome-themes-extra
       phinger-cursors
       libva
       dconf
@@ -99,23 +109,5 @@ in
     # Enable automatic mounting of USB devices
     services.udisks2.enable = true;
     services.gvfs.enable = true;
-
-    # GTK dark theme configuration
-    home-manager.users.marco = {
-      gtk = {
-        enable = true;
-        theme = {
-          name = "Adwaita-dark";
-          package = pkgs.gnome-themes-extra;
-        };
-      };
-
-      dconf.settings = {
-        "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
-          gtk-theme = "Adwaita-dark";
-        };
-      };
-    };
   };
 }

@@ -2,7 +2,7 @@
 
 -- Install lazy.nvim if not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   -- You may want to verify the branch to clone
   vim.fn.system({
     "git",

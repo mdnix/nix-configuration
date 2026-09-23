@@ -6,19 +6,19 @@
   "layer": "top",
   "position": "top",
   "height": 40,
-  "margin-top": 4,
+  "margin-top": 8,
   "margin-left": 8,
   "margin-right": 8,
   "spacing": 4,
 
   "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
   "modules-center": ["custom/notification", "clock"],
-  "modules-right": ["mpris", "cpu", "memory", "hyprland/language", "tray", "pulseaudio", "network", "bluetooth", "battery"],
+  "modules-right": ["mpris", "cpu", "memory", "hyprland/language", "tray", "idle_inhibitor", "pulseaudio", "network", "bluetooth", "power-profiles-daemon", "battery"],
 
   "custom/launcher": {
-    "format": "󱄅",
+    "format": "",
     "tooltip": false,
-    "on-click": "wlogout -b 5",
+    "on-click": "hypr-menu",
     "on-click-right": "pkill wofi || wofi --show drun"
   },
 
@@ -46,11 +46,11 @@
     "tooltip": false,
     "format": "{icon}",
     "format-icons": {
-      "notification": "󱅫",
+      "notification": "󰅸",
       "none": "󰂜",
       "dnd-notification": "󰂛",
       "dnd-none": "󰪑",
-      "inhibited-notification": "󱅫",
+      "inhibited-notification": "󰅸",
       "inhibited-none": "󰂜",
       "dnd-inhibited-notification": "󰂛",
       "dnd-inhibited-none": "󰪑"
@@ -66,11 +66,16 @@
   "clock": {
     "format": "{:%b %d %H:%M}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    },
     "calendar": {
       "mode": "month",
       "on-scroll": 1,
       "format": {
-        "today": "<span color='#eb6f92'><b>{}</b></span>"
+        "today": "<span color='#ea6962'><b>{}</b></span>"
       }
     }
   },
@@ -102,8 +107,27 @@
   },
 
   "tray": {
-    "icon-size": 16,
+    "icon-size": 18,
     "spacing": 8
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip": true,
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "format-icons": {
+      "default": "󰊚",
+      "performance": "󰓅",
+      "balanced": "󰊚",
+      "power-saver": "󰌪"
+    }
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": { "activated": "󰅶", "deactivated": "󰒲" },
+    "tooltip-format-activated": "Idle inhibited — screen stays awake",
+    "tooltip-format-deactivated": "Idle normal"
   },
 
   "pulseaudio": {

@@ -1,9 +1,6 @@
 -- plugins/lspconfig.lua
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
 vim.lsp.config('gopls', {
-  capabilities = capabilities,
   cmd = {"gopls", "serve"},
   filetypes = {"go", "gomod", "gowork"},
   root_markers = {"go.work", "go.mod", ".git"},
@@ -18,26 +15,32 @@ vim.lsp.config('gopls', {
   },
 })
 
-vim.lsp.config('nixd', {
-  capabilities = capabilities,
+-- nixd needs no local config: nvim-lspconfig ships lsp/nixd.lua, and nix
+-- formatting is owned by conform.nvim (nixfmt). The old
+-- settings.nixd.formatting.command pointed at a binary that was not installed
+-- anywhere, and would have been a second formatter for the same buffer.
+
+vim.lsp.config('lua_ls', {
   settings = {
-    nixd = {
-      formatting = {
-        command = { "nixfmt" },
-      },
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = { 'vim' } },
+      -- Do NOT set Lua.workspace.library here: lazydev.nvim owns it and
+      -- injects the Neovim runtime plus lazy plugin sources on demand.
+      workspace = { checkThirdParty = false },
+      format = { enable = false },  -- stylua via conform is the single owner
+      telemetry = { enable = false },
     },
   },
 })
 
 vim.lsp.config('zls', {
-  capabilities = capabilities,
   cmd = {"zls"},
   filetypes = {"zig", "zir"},
   root_markers = {"zls.json", "build.zig", ".git"},
 })
 
 vim.lsp.config('rust_analyzer', {
-  capabilities = capabilities,
   cmd = { "rust-analyzer" },
   filetypes = { "rust" },
   root_markers = { "Cargo.toml", ".git" },
@@ -62,4 +65,4 @@ vim.lsp.config('rust_analyzer', {
   },
 })
 -- Enable the LSP servers
-vim.lsp.enable({'gopls', 'nixd', 'zls', 'rust_analyzer'})
+vim.lsp.enable({ 'gopls', 'nixd', 'zls', 'rust_analyzer', 'lua_ls' })

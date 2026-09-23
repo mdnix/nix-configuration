@@ -10,6 +10,9 @@
     ../../modules/system/audio.nix
     ../../modules/system/sddm.nix
 
+    # Theme
+    ../../modules/theme/gruvbox.nix
+
     # Profile modules
     ../../modules/profiles/desktop.nix
     ../../modules/profiles/development.nix
@@ -19,6 +22,7 @@
 
   # Enable profiles for testing
   profiles = {
+    theme.enable = true;
     desktop.enable = true;
     development.enable = true;
     tools.enable = true;

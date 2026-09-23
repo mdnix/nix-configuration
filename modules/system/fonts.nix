@@ -12,6 +12,7 @@
       noto-fonts-color-emoji
 
       # Nerd fonts
+      nerd-fonts.departure-mono
       nerd-fonts.blex-mono
       nerd-fonts.meslo-lg
 
@@ -26,7 +27,9 @@
       defaultFonts = {
         serif = [ "Noto Serif" ];
         sansSerif = [ "Inter" "Noto Sans" ];
-        monospace = [ "BlexMono Nerd Font" "Noto Sans Mono" ];
+        # DepartureMono is single-weight, so BlexMono sits behind it to serve
+        # bold/italic and anything the pixel font does not cover.
+        monospace = [ "DepartureMono Nerd Font" "BlexMono Nerd Font" "Noto Sans Mono" ];
         emoji = [ "Noto Color Emoji" "OpenMoji Color" ];
       };
     };

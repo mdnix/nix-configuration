@@ -1,15 +1,18 @@
+/* Gruvbox Material — colours come from ~/.config/theme/colors.css. */
+@import url("file:///home/marco/.config/theme/colors.css");
+
 window {
     margin: 0px;
-    border: 2px solid #c4a7e7;
-    background-color: rgba(21, 19, 32, 0.95);
+    border: 2px solid @accent;
+    background-color: alpha(@bg_dark, 0.96);
     border-radius: 0px;
 }
 
 #input {
     margin: 10px;
-    border: 2px solid #6e6a86;
-    color: #e0def4;
-    background-color: rgba(31, 29, 46, 0.8);
+    border: 2px solid @bg_sel;
+    color: @fg;
+    background-color: alpha(@bg, 0.85);
     border-radius: 0px;
     padding: 10px;
     font-size: 14px;
@@ -33,9 +36,12 @@ window {
 }
 
 #text {
+    /* Lists here are space-padded into columns (see hypr-keybinds), which only
+       lines up in a fixed-width face. The rest of the desktop is BlexMono too. */
+    font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font", monospace;
     margin: 5px;
     border: none;
-    color: #e0def4;
+    color: @fg;
 }
 
 #entry {
@@ -46,6 +52,6 @@ window {
 }
 
 #entry:selected {
-    background-color: rgba(196, 167, 231, 0.3);
-    border: 1px solid #c4a7e7;
+    background-color: alpha(@accent, 0.25);
+    border: 1px solid @accent;
 }

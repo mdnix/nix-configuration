@@ -1,102 +1,103 @@
-/* Rosé Pine — matches the Waybar / old HyprPanel notification theme */
+/* Gruvbox Material — colours come from ~/.config/theme/colors.css. */
+@import url("file:///home/marco/.config/theme/colors.css");
 
 * {
-  font-family: "BlexMono Nerd Font";
+  font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font";
   font-size: 14px;
 }
 
 .control-center {
-  background: rgba(21, 19, 32, 0.96);
-  border: 1px solid #26233a;
+  background: alpha(@bg_dark, 0.96);
+  border: 1px solid @bg_sel;
   border-radius: 12px;
-  color: #e0def4;
+  color: @fg;
   margin: 8px;
 }
 
 .control-center .widget-title {
-  color: #c4a7e7;
+  color: @accent;
   font-size: 17px;
   margin: 8px;
 }
 .control-center .widget-title button {
-  background: #eb6f92;
-  color: #151320;
+  background: @red;
+  color: @bg;
   border-radius: 8px;
   padding: 4px 12px;
 }
 .control-center .widget-title button:hover {
-  background: #ebbcba;
+  background: @orange;
 }
 
 .notification-row {
   background: transparent;
 }
 .notification {
-  background: #1f1d2e;
-  border: 1px solid #26233a;
+  background: @bg;
+  border: 1px solid @bg_sel;
   border-radius: 10px;
   margin: 6px 8px;
   padding: 0;
 }
 .notification.critical {
-  border: 1px solid #eb6f92;
+  border: 1px solid @red;
 }
 .notification-content {
-  color: #e0def4;
+  color: @fg;
   padding: 8px;
 }
 .summary {
-  color: #c4a7e7;
+  color: @accent;
   font-weight: bold;
 }
 .body {
-  color: #e0def4;
+  color: @fg;
 }
 .time {
-  color: #908caa;
+  color: @fg_faint;
 }
 .close-button {
-  background: #eb6f92;
-  color: #151320;
+  background: @red;
+  color: @bg;
   border-radius: 8px;
   margin: 4px;
   padding: 2px 6px;
 }
 .close-button:hover {
-  background: #ebbcba;
+  background: @orange;
 }
 
 .notification-action,
 .notification-default-action {
   background: transparent;
-  color: #e0def4;
+  color: @fg;
   border-radius: 8px;
 }
 .notification-action:hover {
-  background: #26233a;
+  background: @bg_light;
 }
 
 .widget-dnd {
-  color: #e0def4;
+  color: @fg;
   margin: 8px;
   font-size: 15px;
 }
 .widget-dnd > switch {
-  background: #26233a;
+  background: @bg_light;
   border-radius: 12px;
   box-shadow: none;
 }
 .widget-dnd > switch:checked {
-  background: #c4a7e7;
+  background: @accent;
 }
 .widget-dnd > switch slider {
-  background: #6e6a86;
+  background: @bg_muted;
   border-radius: 11px;
 }
 
 /* floating popups */
 .floating-notifications.background .notification {
-  background: rgba(21, 19, 32, 0.96);
-  border: 1px solid #26233a;
+  background: alpha(@bg_dark, 0.96);
+  border: 1px solid @bg_sel;
   border-radius: 10px;
 }

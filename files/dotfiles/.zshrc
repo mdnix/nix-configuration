@@ -56,6 +56,31 @@ export KUBE_EDITOR="/usr/bin/nvim"
 # Ghostty Resources Directory
 export GHOSTTY_RESOURCES_DIR="$HOME/.local/share/ghostty/"
 
+# Hyprland instance signature goes stale when the compositor restarts under a
+# long-lived shell, which makes every hyprctl call fail on a dead socket.
+# The live instance is the one dir that still has a .socket.sock; dead ones keep
+# only their log, and mtimes tie when a restart happens in the same minute.
+if [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" && ! -S "/run/user/$UID/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket.sock" ]]; then
+  for _d in /run/user/$UID/hypr/*(/N); do
+    [[ -S "$_d/.socket.sock" ]] && export HYPRLAND_INSTANCE_SIGNATURE="${_d:t}" && break
+  done
+  unset _d
+fi
+
+# hyprpaper reads its config only at startup and has no reload command, so a
+# config edit alone never takes effect. Set it live over IPC, then persist.
+wallpaper() {
+  local w="$HOME/.config/wallpapers/$1"
+  [[ -f "$w" ]] || { echo "pick one:"; ls "$HOME/.config/wallpapers"; return 1; }
+  hyprctl hyprpaper wallpaper ",$w" || return 1
+  sed -i "s|^preload = .*|preload = $w|; s|^\\( *\\)path = .*|\\1path = $w|" \
+    "$HOME/.config/hypr/hyprpaper.conf"
+  # hyprlock keeps its own copy of the path; match only the wallpapers line so
+  # other path keys in that config are left alone.
+  sed -i "s|^\( *\)path = .*wallpapers/.*|\1path = $w|" \
+    "$HOME/.config/hypr/hyprlock.conf"
+}
+
 # Direnv hook
 eval "$(direnv hook zsh)"
 

@@ -10,6 +10,9 @@
     ../../modules/system/audio.nix
     ../../modules/system/sddm.nix
 
+    # Theme
+    ../../modules/theme/gruvbox.nix
+
     # Profile modules
     ../../modules/profiles/desktop.nix
     ../../modules/profiles/development.nix
@@ -19,6 +22,7 @@
 
   # Enable profiles
   profiles = {
+    theme.enable = true;
     desktop.enable = true;
     development.enable = true;
     office.enable = true;
@@ -29,7 +33,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_7_1;
+  boot.kernelPackages = pkgs.linuxPackages_7_2;
+
+  # Build/run aarch64-linux packages via qemu (e.g. nixpkgs-review --systems)
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Intel graphics (Lunar Lake Arc 140V)
   hardware.graphics = {

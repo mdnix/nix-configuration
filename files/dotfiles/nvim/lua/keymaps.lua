@@ -1,88 +1,123 @@
 -- keymaps.lua
+--
+-- Prefix scheme. Every <leader> key below is EITHER a bare mapping OR a group
+-- prefix -- never both. That invariant is what removes the 1s timeoutlen
+-- stalls on <leader>g / <leader>h / <leader>c / <leader>p, and the
+-- <leader>dd-can-never-fire bug.
+--
+--   <leader>f*  find (telescope)   <leader>s*  splits
+--   <leader>b*  buffers            <leader>t*  tabs
+--   <leader>c*  code               <leader>g*  LSP (no built-in equivalent)
+--   <leader>x*  trouble            <leader>G*  git (fugitive)
+--   <leader>h*  git hunks -- buffer-local, see lua/plugins/gitsigns.lua
+--
+--   Bare, and their prefixes are kept empty on purpose:
+--   <leader>d  black-hole delete operator     <leader>y / <leader>p  clipboard
+--   <leader>u  undotree                       <leader>o  open line on GitHub
+--   <leader>a / <leader>e / <leader>1..4      harpoon (plugins/harpoon.lua)
+--
+-- Deliberately NOT mapped -- Neovim 0.12 already provides these:
+--   grn rename           grr references       gri implementation
+--   gra code action      grt type definition  grx codelens
+--   gO document symbols  K hover              i_CTRL-S signature help
+--   ]d [d diagnostics    <C-W>d diagnostic float
+--   ]b [b buffers        ]q [q quickfix       gc/gcc comment
+--   -   oil parent dir (plugins/oil.lua)
 
--- Remap jj to ESC
-vim.keymap.set('i', 'jj', '<ESC>')
+local map = vim.keymap.set
 
--- File explorer (Oil)
-vim.keymap.set('n', '<Leader>pv', '<CMD>Oil<CR>')
+--------------------------------------------------------------------- escape --
+map('i', 'jj', '<Esc>', { desc = 'Escape' })
+map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Terminal: leave insert mode' })
 
--- Split windows
-vim.keymap.set('n', '<Leader>h', ':split<CR>')
-vim.keymap.set('n', '<Leader>v', ':vsplit<CR>')
-vim.keymap.set('n', '<Leader>cs', ':close<CR>')
+--------------------------------------------------------------------- splits --
+map('n', '<leader>sh', '<Cmd>split<CR>',  { desc = 'Split horizontal' })
+map('n', '<leader>sv', '<Cmd>vsplit<CR>', { desc = 'Split vertical' })
+map('n', '<leader>sc', '<Cmd>close<CR>',  { desc = 'Close split' })
 
--- Resize splits using Leader key
-vim.keymap.set('n', '<Leader>+', ':resize +2<CR>')
-vim.keymap.set('n', '<Leader>-', ':resize -2<CR>')
-vim.keymap.set('n', '<Leader><Right>', ':vertical resize +2<CR>')
-vim.keymap.set('n', '<Leader><Left>', ':vertical resize -2<CR>')
+map('n', '<C-h>', '<C-w>h', { desc = 'Window left' })
+map('n', '<C-j>', '<C-w>j', { desc = 'Window down' })
+map('n', '<C-k>', '<C-w>k', { desc = 'Window up' })
+map('n', '<C-l>', '<C-w>l', { desc = 'Window right' })
 
--- Git commands (fugitive) - capital G to avoid LSP conflicts
-vim.keymap.set('n', '<Leader>Ga', ':Gwrite<CR>')
-vim.keymap.set('n', '<Leader>Gc', ':Git commit --verbose<CR>')
-vim.keymap.set('n', '<Leader>Gp', ':Git push<CR>')
-vim.keymap.set('n', '<Leader>Gl', ':Git pull<CR>')
-vim.keymap.set('n', '<Leader>Gs', ':Git<CR>')
-vim.keymap.set('n', '<Leader>Gb', ':Git blame<CR>')
-vim.keymap.set('n', '<Leader>Gd', ':Gvdiffsplit<CR>')
-vim.keymap.set('n', '<Leader>Gr', ':GRemove<CR>')
+map('n', '<leader>+',       '<Cmd>resize +2<CR>',          { desc = 'Height +' })
+map('n', '<leader>-',       '<Cmd>resize -2<CR>',          { desc = 'Height -' })
+map('n', '<leader><Right>', '<Cmd>vertical resize +2<CR>', { desc = 'Width +' })
+map('n', '<leader><Left>',  '<Cmd>vertical resize -2<CR>', { desc = 'Width -' })
 
--- Navigate splits
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
+-------------------------------------------------------------------- buffers --
+map('n', '<leader>bd', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
 
--- Dont put deleted into register
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+----------------------------------------------------------------------- tabs --
+map('n', '<leader>tn', '<Cmd>tabnew<CR>',   { desc = 'New tab' })
+map('n', '<leader>tc', '<Cmd>tabclose<CR>', { desc = 'Close tab' })
 
--- Yank to system clipboard
-vim.keymap.set({'n', 'v'}, '<Leader>y', '"+y')
-vim.keymap.set({'n', 'v'}, '<Leader>p', '"+p')
+------------------------------------------------------------------ telescope --
+map('n', '<leader>ff', '<Cmd>Telescope find_files<CR>',  { desc = 'Find files' })
+map('n', '<leader>fg', '<Cmd>Telescope live_grep<CR>',   { desc = 'Live grep' })
+map('n', '<leader>fb', '<Cmd>Telescope buffers<CR>',     { desc = 'Buffers' })
+map('n', '<leader>fr', '<Cmd>Telescope oldfiles<CR>',    { desc = 'Recent files' })
+map('n', '<leader>fh', '<Cmd>Telescope help_tags<CR>',   { desc = 'Help tags' })
+map('n', '<leader>fd', '<Cmd>Telescope diagnostics<CR>', { desc = 'Diagnostics' })
 
--- Move current line or selected lines up or down
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { silent = true })
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { silent = true })
-vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
-vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true })
+------------------------------------------------------------------ registers --
+-- No 'clipboard=unnamedplus' on purpose: yank/paste stay explicit.
+map({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete to black hole' })
+map({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Yank to system clipboard' })
+map({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
+map('x', 'p', '"_dP', { desc = 'Paste over selection, keep register' })
 
--- Buffer navigation
-vim.keymap.set('n', '<Leader>z', ':bp<CR>')
-vim.keymap.set('n', '<Leader>x', ':bn<CR>')
-vim.keymap.set('n', '<Leader>c', ':bd<CR>')
+--------------------------------------------------------------- text motions --
+map('v', '<', '<gv', { desc = 'Dedent, keep selection' })
+map('v', '>', '>gv', { desc = 'Indent, keep selection' })
+map('n', 'J', 'mzJ`z',     { desc = 'Join lines, keep cursor' })
+map('n', 'n', 'nzzzv',     { desc = 'Next match, centered' })
+map('n', 'N', 'Nzzzv',     { desc = 'Prev match, centered' })
+map('n', '<C-d>', '<C-d>zz', { desc = 'Half page down, centered' })
+map('n', '<C-u>', '<C-u>zz', { desc = 'Half page up, centered' })
 
--- Tabs (use gt/gT for next/prev, they're built-in)
-vim.keymap.set('n', '<Leader>tn', ':tabnew<CR>')
-vim.keymap.set('n', '<Leader>tc', ':tabclose<CR>')
+map('n', '<A-j>', '<Cmd>m .+1<CR>==', { silent = true, desc = 'Move line down' })
+map('n', '<A-k>', '<Cmd>m .-2<CR>==', { silent = true, desc = 'Move line up' })
+map('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true, desc = 'Move selection down' })
+map('v', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true, desc = 'Move selection up' })
 
--- Open current line on GitHub
-vim.keymap.set('n', '<Leader>o', ':.GBrowse<CR>')
+------------------------------------------------------------------------ LSP --
+-- Everything else is a 0.12 default (see header). These have none.
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto definition' })
+map('n', '<leader>gc', vim.lsp.buf.incoming_calls,   { desc = 'Incoming calls' })
+map('n', '<leader>go', vim.lsp.buf.outgoing_calls,   { desc = 'Outgoing calls' })
+map('n', '<leader>gw', vim.lsp.buf.workspace_symbol, { desc = 'Workspace symbols' })
 
--- Autocomplete pairs
-vim.keymap.set('i', '{', '{}<Esc>ha')
-vim.keymap.set('i', '(', '()<Esc>ha')
-vim.keymap.set('i', '[', '[]<Esc>ha')
-vim.keymap.set('i', '"', '""<Esc>ha')
-vim.keymap.set('i', "'", "''<Esc>ha")
-vim.keymap.set('i', '`', '``<Esc>ha')
+----------------------------------------------------------------------- code --
+map({ 'n', 'v' }, '<leader>cf', function()
+  require('conform').format({ async = true, lsp_format = 'fallback' })
+end, { desc = 'Format buffer / selection' })
 
--- Telescope
-vim.keymap.set('n', '<Leader>f', ':Telescope find_files<CR>')
-vim.keymap.set('n', '<Leader>g', ':Telescope live_grep<CR>')
-vim.keymap.set('n', '<Leader>b', ':Telescope buffers<CR>')
+------------------------------------------------------------------- undotree --
+map('n', '<leader>u', '<Cmd>UndotreeToggle<CR>', { desc = 'Undotree' })
 
--- Diagnostics
-vim.keymap.set('n', '<Leader>dd', vim.diagnostic.open_float, { desc = "Show diagnostic" })
-vim.keymap.set('n', '<Leader>dl', vim.diagnostic.setloclist, { desc = "Diagnostic list" })
+-------------------------------------------------------------------- trouble --
+map('n', '<leader>xx', '<Cmd>Trouble diagnostics toggle<CR>',
+  { desc = 'Diagnostics (workspace)' })
+map('n', '<leader>xX', '<Cmd>Trouble diagnostics toggle filter.buf=0<CR>',
+  { desc = 'Diagnostics (buffer)' })
+map('n', '<leader>xs', '<Cmd>Trouble symbols toggle<CR>', { desc = 'Symbols' })
+map('n', '<leader>xq', '<Cmd>Trouble qflist toggle<CR>',  { desc = 'Quickfix list' })
+map('n', '<leader>xl', '<Cmd>Trouble loclist toggle<CR>', { desc = 'Location list' })
 
--- LSP Keymaps
-vim.keymap.set('n', '<Leader>gd', vim.lsp.buf.definition)
-vim.keymap.set('n', '<Leader>sh', vim.lsp.buf.signature_help)
-vim.keymap.set('n', '<Leader>K', vim.lsp.buf.hover)
-vim.keymap.set('n', '<Leader>gi', vim.lsp.buf.implementation)
-vim.keymap.set('n', '<Leader>gc', vim.lsp.buf.incoming_calls)
-vim.keymap.set('n', '<Leader>td', vim.lsp.buf.type_definition)
-vim.keymap.set('n', '<Leader>gr', vim.lsp.buf.references)
-vim.keymap.set('n', '<Leader>gn', vim.lsp.buf.rename)
-vim.keymap.set('n', '<Leader>gs', vim.lsp.buf.document_symbol)
-vim.keymap.set('n', '<Leader>gw', vim.lsp.buf.workspace_symbol)
+--------------------------------------------------- git (fugitive / rhubarb) --
+map('n', '<leader>Ga', '<Cmd>Gwrite<CR>',               { desc = 'Stage file' })
+map('n', '<leader>Gc', '<Cmd>Git commit --verbose<CR>', { desc = 'Commit' })
+map('n', '<leader>Gp', '<Cmd>Git push<CR>',             { desc = 'Push' })
+map('n', '<leader>Gl', '<Cmd>Git pull<CR>',             { desc = 'Pull' })
+map('n', '<leader>Gs', '<Cmd>Git<CR>',                  { desc = 'Status' })
+map('n', '<leader>Gb', '<Cmd>Git blame<CR>',            { desc = 'Blame' })
+map('n', '<leader>Gd', '<Cmd>Gvdiffsplit<CR>',          { desc = 'Diff split' })
+map('n', '<leader>Gr', '<Cmd>GRemove<CR>',              { desc = 'Remove file' })
+map('n', '<leader>o',  '<Cmd>.GBrowse<CR>',             { desc = 'Open line on GitHub' })
+
+-- Completion keys (<CR> accept, <Tab>/<S-Tab> snippet jump, <C-Space> show,
+-- <C-e> cancel, <C-n>/<C-p> select, <C-b>/<C-f> scroll docs) are bound by
+-- blink.cmp's "enter" preset. They are NOT mapped here on purpose: this file
+-- is required after lazy.setup(), so anything mapped here would override
+-- blink and break the menu.

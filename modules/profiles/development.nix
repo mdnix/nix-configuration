@@ -36,6 +36,10 @@ in
       zed-editor
       heynote
 
+      # AI tools
+      codex
+      claude-code
+
       # Build tools & compilers
       gcc
       gnumake
@@ -45,12 +49,17 @@ in
       go-task
       protobuf_33
       buf
+      tree-sitter # required by nvim-treesitter `main`
+
+      # API client
+      yaak
 
       # Go
       go
       gopls
       delve
       golangci-lint
+      gotools # goimports
 
       # Python
       python3
@@ -58,6 +67,7 @@ in
       # JavaScript/TypeScript
       nodejs
       bun
+      prettierd
 
       # Rust
       rustc
@@ -69,8 +79,13 @@ in
       zig
       zls
 
+      # Lua
+      lua-language-server
+      stylua
+
       # Nix
       nixd
+      nixfmt
 
       # Container tools
       lazydocker
