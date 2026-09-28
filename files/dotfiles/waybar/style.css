@@ -1,7 +1,6 @@
-/* Gruvbox Material. Every colour below is a name defined by
-   ~/.config/theme/colors.css, which modules/theme/gruvbox.nix generates from
-   modules/theme/palette.nix — there are no hex literals in this file. */
-@import url("file:///home/marco/.config/theme/colors.css");
+/* Gruvbox Material. Every colour below is a name defined by the variant dir
+   theme-toggle points ~/.config/theme/current at. No hex literals here. */
+@import url("file:///home/marco/.config/theme/current/colors.css");
 
 * {
   font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font";

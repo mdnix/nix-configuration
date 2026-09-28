@@ -50,6 +50,7 @@ pkgs: {
       bemoji
       procps
       pkgs.hypr-keybinds
+      pkgs.theme-toggle
     ];
     text = ''
       pick() {
@@ -94,8 +95,9 @@ pkgs: {
                    \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
                  | sort | pick "Wallpaper")
         [ -n "$choice" ] || return 0
-        hyprctl hyprpaper preload "$choice"
-        hyprctl hyprpaper wallpaper ",$choice"
+        # Via theme-toggle so the pick is recorded against the current variant
+        # and restored at next login instead of reverting to its default.
+        theme-toggle wallpaper "$choice"
       }
 
       menu_capture() {
@@ -123,9 +125,10 @@ pkgs: {
       }
 
       menu_style() {
-        case "$(printf '%s\n' "Wallpaper" "Night light" | pick "Style")" in
-          "Wallpaper")   wallpaper_pick ;;
-          "Night light") nightlight_toggle ;;
+        case "$(printf '%s\n' "Light / Dark" "Wallpaper" "Night light" | pick "Style")" in
+          "Light / Dark") theme-toggle ;;
+          "Wallpaper")    wallpaper_pick ;;
+          "Night light")  nightlight_toggle ;;
         esac
       }
 
@@ -160,6 +163,180 @@ pkgs: {
         clipboard) menu_clipboard ;;
         system)    wlogout -b 5 ;;
         *) echo "hypr-menu: unknown route '$1'" >&2; exit 2 ;;
+      esac
+    '';
+  };
+
+  # Light/dark switcher: flips ~/.config/theme/current between the two palettes
+  # gruvbox.nix generated, then walks every running surface's reload path.
+  #
+  # Surfaces with no reload path are left alone on purpose — SDDM and the TTY
+  # are set before the session exists, spicetify patches Spotify at build time,
+  # and btop picks its theme up on next launch.
+  theme-toggle = pkgs.writeShellApplication {
+    name = "theme-toggle";
+    runtimeInputs = with pkgs; [
+      coreutils
+      hyprland
+      jq
+      glib
+      procps
+      libnotify
+      swaynotificationcenter
+    ];
+    text = ''
+      theme_dir="$HOME/.config/theme"
+      current="$theme_dir/current"
+      btop_themes="$HOME/.config/btop/themes"
+
+      variant_now() {
+        if [ -L "$current" ]; then
+          basename "$(readlink "$current")"
+        else
+          echo dark
+        fi
+      }
+
+      link_variant() {
+        local v="$1"
+        [ -d "$theme_dir/$v" ] || { echo "theme-toggle: no such variant: $v" >&2; exit 1; }
+        # -n so `current` is replaced, not followed into the dir it points at.
+        ln -sfn "$theme_dir/$v" "$current"
+        if [ -e "$btop_themes/$v.theme" ]; then
+          ln -sfn "$btop_themes/$v.theme" "$btop_themes/current.theme"
+        fi
+      }
+
+      # Last pick for this variant, else its default. One file per variant, so a
+      # pick survives a round trip through the other theme; an entry naming a
+      # deleted image falls back rather than blanking the desktop.
+      wallpaper_for() {
+        local v="$1" fallback="$2" state chosen
+        state="$theme_dir/wallpaper.$v"
+        chosen=""
+        if [ -r "$state" ]; then
+          chosen="$(cat "$state")"
+        fi
+        if [ -n "$chosen" ] && [ -e "$chosen" ]; then
+          echo "$chosen"
+        else
+          echo "$fallback"
+        fi
+      }
+
+      wallpaper_set() {
+        local path="$1"
+        # hyprpaper 0.8 dropped preload/unload/listloaded, so this call loads
+        # the image itself. Empty monitor field means "every output". Retried
+        # because hyprpaper may still be coming up when exec-once runs this.
+        for _ in 1 2 3 4 5; do
+          if hyprctl hyprpaper wallpaper ",$path" >/dev/null 2>&1; then
+            return 0
+          fi
+          sleep 0.4
+        done
+      }
+
+      # tmux and nvim come off $PATH, not runtimeInputs: both talk to an
+      # already-running process, and a second store copy is the wrong binary.
+      tmux_reload() {
+        command -v tmux >/dev/null 2>&1 || return 0
+        tmux has-session >/dev/null 2>&1 || return 0
+        # The whole file, not just the colours: status strings interpolate
+        # #{@tm_*} at draw time, but pane-border-style resolves at set time.
+        tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1 || true
+        tmux refresh-client -S >/dev/null 2>&1 || true
+      }
+
+      nvim_reload() {
+        local v="$1" sock
+        command -v nvim >/dev/null 2>&1 || return 0
+        for sock in "''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/nvim.*; do
+          [ -S "$sock" ] || continue
+          # --remote-expr, not --remote-send: an expression cannot land in the
+          # wrong mode mid-edit. The colorscheme is re-applied by hand because
+          # gruvbox-material reads &background on load, not on change.
+          timeout 2 nvim --server "$sock" --remote-expr \
+            "execute('set background=$v | colorscheme gruvbox-material')" \
+            >/dev/null 2>&1 || true
+        done
+      }
+
+      ghostty_reload() {
+        local addr
+        # Ghostty has no reload IPC, but binds one by default (ctrl+shift+,)
+        # and Hyprland can deliver it to a named window. Addresses are
+        # collected up front so the loop is not reading hyprctl while
+        # dispatching into it.
+        while read -r addr; do
+          [ -n "$addr" ] || continue
+          hyprctl dispatch sendshortcut "CTRL SHIFT, comma, address:$addr" \
+            >/dev/null 2>&1 || true
+        done < <(hyprctl clients -j \
+                 | jq -r '.[] | select(.class == "com.mitchellh.ghostty") | .address')
+      }
+
+      # Announces only when given an argument: a flip is worth a notification,
+      # the login restore is not -- nothing switched.
+      apply() {
+        # shellcheck disable=SC1091,SC2154
+        local announce="''${1:-}" v
+        v="$(variant_now)"
+        # shellcheck source=/dev/null
+        . "$theme_dir/$v/env"
+
+        # Both hyprland.conf and hyprlock.conf source current/, so one reload
+        # covers borders now and the lock screen next time it is invoked.
+        hyprctl reload >/dev/null 2>&1 || true
+        hyprctl setcursor "$CURSOR_THEME_NAME" 24 >/dev/null 2>&1 || true
+
+        # dconf is what live GTK apps and the portal read; home-manager's
+        # settings.ini is only the startup default.
+        gsettings set org.gnome.desktop.interface color-scheme "$COLOR_SCHEME" || true
+        gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME_NAME" || true
+        gsettings set org.gnome.desktop.interface icon-theme "$ICON_THEME_NAME" || true
+        gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME_NAME" || true
+
+        wallpaper_set "$(wallpaper_for "$v" "$WALLPAPER")"
+
+        # Waybar rereads config and CSS on SIGUSR2. wofi and wlogout need
+        # nothing: they are spawned per invocation.
+        pkill -USR2 waybar || true
+        swaync-client --reload-css >/dev/null 2>&1 || true
+
+        tmux_reload
+        nvim_reload "$v"
+        ghostty_reload
+
+        if [ -n "$announce" ]; then
+          notify-send -a theme -i preferences-desktop-theme \
+            "Theme" "Switched to $v" >/dev/null 2>&1 || true
+        fi
+      }
+
+      case "''${1:-toggle}" in
+        toggle)
+          if [ "$(variant_now)" = "dark" ]; then link_variant light; else link_variant dark; fi
+          apply announce
+          ;;
+        dark | light) link_variant "$1"; apply announce ;;
+        # The login restore: hyprpaper.conf and settings.ini both start from
+        # the build-time default, which may not be what was last picked.
+        apply)  apply ;;
+        # Records the pick against the current variant and hangs it now. Why
+        # hypr-menu delegates here: only this script knows where that state
+        # lives.
+        wallpaper)
+          [ "$#" -eq 2 ] || { echo "usage: theme-toggle wallpaper <path>" >&2; exit 2; }
+          [ -e "$2" ] || { echo "theme-toggle: no such wallpaper: $2" >&2; exit 1; }
+          printf '%s\n' "$2" > "$theme_dir/wallpaper.$(variant_now)"
+          wallpaper_set "$2"
+          ;;
+        status) variant_now ;;
+        *)
+          echo "usage: theme-toggle [toggle|dark|light|apply|status|wallpaper <path>]" >&2
+          exit 2
+          ;;
       esac
     '';
   };

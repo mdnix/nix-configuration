@@ -6,12 +6,12 @@
 }:
 let
   cfg = config.profiles.theme;
-  c = import ./palette.nix;
+  variants = import ./variants.nix;
+  # The boot default, and what every build-time-only consumer (SDDM, console,
+  # spicetify) is pinned to.
+  default = variants.dark;
+
   inherit (lib) mkEnableOption mkIf;
-  # Every themed surface reads its colours from ~/.config/theme, which is the
-  # only part of the dotfiles that Nix generates. The dotfile trees themselves
-  # stay out-of-store symlinks so they remain live-editable; they just `source`
-  # or `@import` the generated file instead of hardcoding hex.
 in
 {
   options.profiles.theme.enable = mkEnableOption "Gruvbox Material theme across the system";
@@ -20,164 +20,233 @@ in
     environment.systemPackages = with pkgs; [
       gruvbox-gtk-theme
       gruvbox-plus-icons
+      phinger-cursors
+      theme-toggle
     ];
 
-    home-manager.users.marco = {
-      home.file = {
-        # GTK CSS — imported by waybar, wofi, swaync and wlogout, all of which
-        # are GTK apps and understand @define-color and alpha().
-        ".config/theme/colors.css".text = ''
-          @define-color bg          #${c.bg};
-          @define-color bg_dark     #${c.bgDark};
-          @define-color bg_darker   #${c.bgDarker};
-          @define-color bg_light    #${c.bgLight};
-          @define-color bg_sel      #${c.bgSelection};
-          @define-color bg_muted    #${c.bgMuted};
+    # `config` and `lib` below shadow the NixOS ones deliberately: `lib.hm` and
+    # `config.home.homeDirectory` only exist on home-manager's.
+    home-manager.users.marco =
+      { config, lib, ... }:
+      let
+        inherit (lib)
+          concatLines
+          concatMapAttrs
+          mapAttrs'
+          mapAttrsToList
+          nameValuePair
+          ;
 
-          @define-color fg          #${c.fg};
-          @define-color fg_dim      #${c.fgDim};
-          @define-color fg_faint    #${c.fgFaint};
+        inherit (config.home) homeDirectory;
 
-          @define-color red         #${c.red};
-          @define-color orange      #${c.orange};
-          @define-color yellow      #${c.yellow};
-          @define-color green       #${c.green};
-          @define-color aqua        #${c.aqua};
-          @define-color blue        #${c.blue};
-          @define-color purple      #${c.purple};
-          @define-color accent      #${c.accent};
-        '';
+        # Themed surfaces read ~/.config/theme/current, a symlink at one of the
+        # variant dirs generated here, so switching is a symlink flip plus
+        # reload IPC (theme-toggle) rather than a rebuild. The dotfiles stay
+        # out-of-store symlinks and just `source`/`@import` these.
+        variantFiles =
+          palette:
+          let
+            wallpaper = "${homeDirectory}/.config/wallpapers/${palette.wallpaper}";
+          in
+          {
+            # GTK CSS — imported by waybar, wofi, swaync and wlogout.
+            "colors.css".text = ''
+              @define-color bg          #${palette.bg};
+              @define-color bg_dark     #${palette.bgDark};
+              @define-color bg_darker   #${palette.bgDarker};
+              @define-color bg_light    #${palette.bgLight};
+              @define-color bg_sel      #${palette.bgSelection};
+              @define-color bg_muted    #${palette.bgMuted};
 
-        # Hyprland variables — sourced by hyprland.conf and hyprlock.conf.
-        ".config/theme/hypr-colors.conf".text = ''
-          $bg          = rgb(${c.bg})
-          $bgDark      = rgb(${c.bgDark})
-          $bgDarker    = rgb(${c.bgDarker})
-          $bgLight     = rgb(${c.bgLight})
-          $bgSelection = rgb(${c.bgSelection})
-          $bgMuted     = rgb(${c.bgMuted})
+              @define-color fg          #${palette.fg};
+              @define-color fg_dim      #${palette.fgDim};
+              @define-color fg_faint    #${palette.fgFaint};
 
-          $fg          = rgb(${c.fg})
-          $fgDim       = rgb(${c.fgDim})
-          $fgFaint     = rgb(${c.fgFaint})
+              @define-color red         #${palette.red};
+              @define-color orange      #${palette.orange};
+              @define-color yellow      #${palette.yellow};
+              @define-color green       #${palette.green};
+              @define-color aqua        #${palette.aqua};
+              @define-color blue        #${palette.blue};
+              @define-color purple      #${palette.purple};
+              @define-color accent      #${palette.accent};
+            '';
 
-          $red         = rgb(${c.red})
-          $orange      = rgb(${c.orange})
-          $yellow      = rgb(${c.yellow})
-          $green       = rgb(${c.green})
-          $aqua        = rgb(${c.aqua})
-          $blue        = rgb(${c.blue})
-          $purple      = rgb(${c.purple})
-          $accent      = rgb(${c.accent})
+            # Hyprland variables — sourced by hyprland.conf and hyprlock.conf.
+            "hypr-colors.conf".text = ''
+              $bg          = rgb(${palette.bg})
+              $bgDark      = rgb(${palette.bgDark})
+              $bgDarker    = rgb(${palette.bgDarker})
+              $bgLight     = rgb(${palette.bgLight})
+              $bgSelection = rgb(${palette.bgSelection})
+              $bgMuted     = rgb(${palette.bgMuted})
 
-          # Alpha-carrying variants; Hyprland border/shadow colours need rgba().
-          $borderActive   = rgba(${c.borderActive}ff)
-          $borderInactive = rgba(${c.borderInactive}ff)
-          $shadowColor    = rgba(${c.bgDarker}ee)
-        '';
+              $fg          = rgb(${palette.fg})
+              $fgDim       = rgb(${palette.fgDim})
+              $fgFaint     = rgb(${palette.fgFaint})
 
-        # tmux — sourced by .tmux.conf. Only the colours live here; the bar
-        # layout stays in the dotfile so it can be tweaked without a rebuild.
-        # tmux expands #{@user_option} inside style strings, so these carry
-        # through to status-style, window-status-style and friends.
-        ".config/theme/tmux-colors.conf".text = ''
-          set -g @tm_bg        "#${c.bgDark}"
-          set -g @tm_bg_alt    "#${c.bgLight}"
-          set -g @tm_fg        "#${c.fg}"
-          set -g @tm_fg_dim    "#${c.fgDim}"
-          set -g @tm_fg_faint  "#${c.fgFaint}"
-          set -g @tm_accent    "#${c.accent}"
-          set -g @tm_warn      "#${c.yellow}"
-          set -g @tm_urgent    "#${c.red}"
-          set -g @tm_border    "#${c.borderInactive}"
-          set -g @tm_border_on "#${c.borderActive}"
-        '';
+              $red         = rgb(${palette.red})
+              $orange      = rgb(${palette.orange})
+              $yellow      = rgb(${palette.yellow})
+              $green       = rgb(${palette.green})
+              $aqua        = rgb(${palette.aqua})
+              $blue        = rgb(${palette.blue})
+              $purple      = rgb(${palette.purple})
+              $accent      = rgb(${palette.accent})
 
-        # Ghostty — pulled in from ghostty/config via config-file.
-        ".config/theme/ghostty-colors".text = ''
-          background = #${c.bg}
-          foreground = #${c.fg}
-          cursor-color = #${c.fg}
-          selection-background = #${c.bgSelection}
-          selection-foreground = #${c.fg}
+              # Hyprland border/shadow colours need rgba().
+              $borderActive   = rgba(${palette.borderActive}ff)
+              $borderInactive = rgba(${palette.borderInactive}ff)
+              $shadowColor    = rgba(${palette.bgDarker}ee)
 
-          palette = 0=#${c.bg}
-          palette = 1=#${c.red}
-          palette = 2=#${c.green}
-          palette = 3=#${c.yellow}
-          palette = 4=#${c.blue}
-          palette = 5=#${c.purple}
-          palette = 6=#${c.aqua}
-          palette = 7=#${c.fg}
-          palette = 8=#${c.bgMuted}
-          palette = 9=#${c.red}
-          palette = 10=#${c.green}
-          palette = 11=#${c.yellow}
-          palette = 12=#${c.blue}
-          palette = 13=#${c.purple}
-          palette = 14=#${c.aqua}
-          palette = 15=#${c.fg}
-        '';
-      };
+              # Not colours, but they travel with the variant.
+              $wallpaper    = ${wallpaper}
+              $cursor_theme = ${palette.cursorTheme}
+            '';
 
-      home.pointerCursor = {
-        enable = true;
-        package = pkgs.phinger-cursors;
-        name = "phinger-cursors-dark";
-        size = 24;
-        gtk.enable = true;
-        x11.enable = true;
-      };
+            # tmux — sourced by .tmux.conf, which keeps the bar layout so it
+            # stays tweakable without a rebuild. tmux expands #{@user_option}
+            # inside style strings, so these reach status-style and friends.
+            "tmux-colors.conf".text = ''
+              set -g @tm_bg        "#${palette.bgDark}"
+              set -g @tm_bg_alt    "#${palette.bgLight}"
+              set -g @tm_fg        "#${palette.fg}"
+              set -g @tm_fg_dim    "#${palette.fgDim}"
+              set -g @tm_fg_faint  "#${palette.fgFaint}"
+              set -g @tm_accent    "#${palette.accent}"
+              set -g @tm_warn      "#${palette.yellow}"
+              set -g @tm_urgent    "#${palette.red}"
+              set -g @tm_border    "#${palette.borderInactive}"
+              set -g @tm_border_on "#${palette.borderActive}"
+            '';
 
-      gtk = {
-        enable = true;
-        theme = {
-          name = "Gruvbox-Dark";
-          package = pkgs.gruvbox-gtk-theme;
+            # Ghostty — pulled in from ghostty/config via config-file.
+            "ghostty-colors".text = ''
+              background = #${palette.bg}
+              foreground = #${palette.fg}
+              cursor-color = #${palette.fg}
+              selection-background = #${palette.bgSelection}
+              selection-foreground = #${palette.fg}
+
+              palette = 0=#${palette.bg}
+              palette = 1=#${palette.red}
+              palette = 2=#${palette.green}
+              palette = 3=#${palette.yellow}
+              palette = 4=#${palette.blue}
+              palette = 5=#${palette.purple}
+              palette = 6=#${palette.aqua}
+              palette = 7=#${palette.fg}
+              palette = 8=#${palette.bgMuted}
+              palette = 9=#${palette.red}
+              palette = 10=#${palette.green}
+              palette = 11=#${palette.yellow}
+              palette = 12=#${palette.blue}
+              palette = 13=#${palette.purple}
+              palette = 14=#${palette.aqua}
+              palette = 15=#${palette.fg}
+            '';
+
+            # Everything the switcher needs that is not a colour. It sources
+            # this, so a new per-variant knob never means editing the script.
+            "env".text = ''
+              THEME_VARIANT=${palette.variant}
+              GTK_THEME_NAME=${palette.gtkTheme}
+              ICON_THEME_NAME=${palette.iconTheme}
+              CURSOR_THEME_NAME=${palette.cursorTheme}
+              COLOR_SCHEME=${palette.colorScheme}
+              WALLPAPER=${wallpaper}
+            '';
+          };
+
+        # -> home.file entries under ~/.config/theme/<variant>/.
+        themeFiles = concatMapAttrs (
+          variant: palette:
+          mapAttrs' (
+            name: file: nameValuePair ".config/theme/${variant}/${name}" file
+          ) (variantFiles palette)
+        ) variants;
+
+        # btop rewrites its config on exit, churning the dotfile in git. A
+        # stable path here makes that rewrite a no-op, and makes the theme
+        # switchable: current.theme flips alongside the colour dir.
+        btopThemes = concatMapAttrs (variant: palette: {
+          ".config/btop/themes/${variant}.theme".source =
+            "${pkgs.btop}/share/btop/themes/${palette.btopTheme}.theme";
+        }) variants;
+
+        # The live choice. Unmanaged by home-manager because theme-toggle
+        # rewrites them, so activation seeds one only when it is missing.
+        currentLinks = {
+          ".config/theme/current" = ".config/theme/${default.variant}";
+          ".config/btop/themes/current.theme" = ".config/btop/themes/${default.variant}.theme";
         };
-        iconTheme = {
-          name = "Gruvbox-Plus-Dark";
-          package = pkgs.gruvbox-plus-icons;
+      in
+      {
+        home.file = themeFiles // btopThemes;
+
+        # After linkGeneration, not writeBoundary: the targets are themselves
+        # home.file links, and seeding before they exist fails under `set -eu`.
+        # `-e` follows the link, so a dangling `current` is re-seeded too.
+        home.activation.themeCurrent = lib.hm.dag.entryAfter [ "linkGeneration" ] (
+          concatLines (
+            mapAttrsToList (target: fallback: ''
+              if [ ! -e "$HOME/${target}" ]; then
+                run ${pkgs.coreutils}/bin/ln -sfn "$HOME/${fallback}" "$HOME/${target}"
+              fi
+            '') currentLinks
+          )
+        );
+
+        # Size and plumbing stay declarative; only the name moves at runtime,
+        # via theme-toggle's gsettings and `hyprctl setcursor`.
+        home.pointerCursor = {
+          enable = true;
+          package = pkgs.phinger-cursors;
+          name = default.cursorTheme;
+          size = 24;
+          gtk.enable = true;
+          x11.enable = true;
         };
-        # The package ships gtk-4.0 assets, so GTK4 apps get the same theme
-        # rather than home-manager's new "leave GTK4 alone" default.
-        gtk4.theme = {
-          name = "Gruvbox-Dark";
-          package = pkgs.gruvbox-gtk-theme;
+
+        gtk = {
+          enable = true;
+          theme = {
+            name = default.gtkTheme;
+            package = pkgs.gruvbox-gtk-theme;
+          };
+          iconTheme = {
+            name = default.iconTheme;
+            package = pkgs.gruvbox-plus-icons;
+          };
+          # The package ships gtk-4.0 assets, so opt out of home-manager's
+          # "leave GTK4 alone" default.
+          gtk4.theme = {
+            name = default.gtkTheme;
+            package = pkgs.gruvbox-gtk-theme;
+          };
+        };
+
+        # Qt follows GTK rather than carrying a second copy of the palette.
+        qt = {
+          enable = true;
+          platformTheme.name = "gtk3";
+        };
+
+        # Seed values only; theme-toggle rewrites these keys at runtime.
+        dconf.settings."org/gnome/desktop/interface" = {
+          color-scheme = default.colorScheme;
+          gtk-theme = default.gtkTheme;
+          icon-theme = default.iconTheme;
         };
       };
 
-      # Qt follows GTK rather than carrying a second copy of the palette.
-      qt = {
-        enable = true;
-        platformTheme.name = "gtk3";
-      };
-
-      dconf.settings."org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-        gtk-theme = "Gruvbox-Dark";
-        icon-theme = "Gruvbox-Plus-Dark";
-      };
-    };
-
-    # Console (TTY) colours, so even a dropped-to-tty session matches.
-    console.colors = [
-      c.bg
-      c.red
-      c.green
-      c.yellow
-      c.blue
-      c.purple
-      c.aqua
-      c.fg
-      c.bgMuted
-      c.red
-      c.green
-      c.yellow
-      c.blue
-      c.purple
-      c.aqua
-      c.fg
-    ];
+    # TTY colours. Set once at boot with no reload path, so it stays on the
+    # default. Slots 0-7 are normal and 8-15 bright; only the bg slot differs.
+    console.colors =
+      let
+        ansi =
+          bg: [ bg ] ++ (with default; [ red green yellow blue purple aqua fg ]);
+      in
+      ansi default.bg ++ ansi default.bgMuted;
   };
 }

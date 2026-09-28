@@ -8,13 +8,21 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       -- "hard" + "material" is the pair that yields the #1d2021 / #d4be98 in
-      -- modules/theme/palette.nix, so the editor matches the terminal it
+      -- modules/theme/variants.nix, so the editor matches the terminal it
       -- runs in.
       vim.g.gruvbox_material_background = "hard"
       vim.g.gruvbox_material_foreground = "material"
       vim.g.gruvbox_material_better_performance = 1
       vim.g.gruvbox_material_enable_italic = 1
       vim.g.gruvbox_material_transparent_background = 1
+
+      -- The desktop's choice is the target of ~/.config/theme/current. This
+      -- is what makes a freshly opened nvim match; running ones are pushed
+      -- the change over their RPC socket by theme-toggle.
+      local uv = vim.uv or vim.loop
+      local current = uv.fs_readlink(vim.fn.expand("~/.config/theme/current"))
+      vim.o.background = (current and current:match("light$")) and "light" or "dark"
+
       vim.cmd.colorscheme("gruvbox-material")
     end,
   },

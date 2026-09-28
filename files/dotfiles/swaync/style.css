@@ -1,5 +1,6 @@
-/* Gruvbox Material — colours come from ~/.config/theme/colors.css. */
-@import url("file:///home/marco/.config/theme/colors.css");
+/* Gruvbox Material — colours come from the variant dir theme-toggle
+   points ~/.config/theme/current at. */
+@import url("file:///home/marco/.config/theme/current/colors.css");
 
 * {
   font-family: "DepartureMono Nerd Font", "BlexMono Nerd Font";
