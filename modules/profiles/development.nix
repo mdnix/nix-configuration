@@ -93,6 +93,7 @@ in
 
       # Kubernetes tools
       clusterctl
+      kubebuilder
       kubectl
       kubectx
       kubecolor
@@ -142,14 +143,20 @@ in
     ];
 
     networking.nftables.enable = true;
-    networking.firewall.trustedInterfaces = [ "docker0" "br-+" ];
+    networking.firewall.trustedInterfaces = [
+      "docker0"
+      "br-+"
+    ];
 
     # Enable virtualization
     virtualisation = {
       docker = {
         enable = true;
         daemon.settings = {
-          dns = [ "1.1.1.1" "8.8.8.8" ];
+          dns = [
+            "1.1.1.1"
+            "8.8.8.8"
+          ];
           firewall-backend = "nftables";
         };
       };
@@ -160,6 +167,9 @@ in
     systemd.services.docker.path = [ pkgs.nftables ];
 
     # Add user to libvirtd and docker groups
-    users.users.marco.extraGroups = [ "libvirtd" "docker" ];
+    users.users.marco.extraGroups = [
+      "libvirtd"
+      "docker"
+    ];
   };
 }
