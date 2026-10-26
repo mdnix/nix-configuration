@@ -90,6 +90,7 @@ in
       # Container tools
       lazydocker
       devpod
+      cosign
 
       # Kubernetes tools
       clusterctl
