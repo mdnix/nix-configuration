@@ -33,7 +33,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_7_2;
+  boot.kernelPackages = pkgs.linuxPackages_7_3;
 
   # Build/run aarch64-linux packages via qemu (e.g. nixpkgs-review --systems)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -85,7 +85,11 @@
     isNormalUser = true;
     description = "Marco";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
   };
 
   # Nix configuration is handled in system/nix.nix
