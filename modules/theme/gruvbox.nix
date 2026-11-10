@@ -72,7 +72,7 @@ in
               @define-color accent      #${palette.accent};
             '';
 
-            # Hyprland variables — sourced by hyprland.conf and hyprlock.conf.
+            # Hyprland variables — parsed by hyprland.lua, sourced by hyprlock.conf.
             "hypr-colors.conf".text = ''
               $bg          = rgb(${palette.bg})
               $bgDark      = rgb(${palette.bgDark})

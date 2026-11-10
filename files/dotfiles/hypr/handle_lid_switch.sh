@@ -13,13 +13,13 @@ case "$1" in
     on)
         monitor_count=$(hyprctl monitors | grep -c "^Monitor")
         if [ "$monitor_count" -gt 1 ]; then
-            hyprctl keyword monitor "eDP-1, disable"
+            hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = true })'
             sleep 0.5
             restart_panel
         fi
         ;;
     off)
-        hyprctl keyword monitor "eDP-1, 2880x1800@120, auto-right, 1.5"
+        hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = false, mode = "2880x1800@120", position = "auto-right", scale = 1.5 })'
         sleep 0.5
         restart_panel
         ;;

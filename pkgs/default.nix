@@ -1,7 +1,7 @@
 # Custom packages
 pkgs: {
   # Keybinding cheatsheet. Reads the live binds out of Hyprland rather than a
-  # second copy in a file, so every `bindd` in hyprland.conf documents itself.
+  # second copy in a file, so every `bindd` in hyprland.lua documents itself.
   hypr-keybinds = pkgs.writeShellApplication {
     name = "hypr-keybinds";
     runtimeInputs = with pkgs; [ hyprland jq wofi ];
@@ -9,7 +9,7 @@ pkgs: {
       hyprctl binds -j | jq -r '
         # Hyprland packs held modifiers into a bitmask: SHIFT 1, CTRL 4,
         # ALT 8, SUPER 64. Listed SUPER-first because that is how the
-        # bindings read in hyprland.conf.
+        # bindings read in hyprland.lua.
         def mods(m):
           [ if (m / 64 | floor) % 2 == 1 then "SUPER" else empty end,
             if (m / 4  | floor) % 2 == 1 then "CTRL"  else empty end,
@@ -58,17 +58,15 @@ pkgs: {
       }
 
       # Toggles read their state back out of Hyprland instead of tracking it in
-      # a state file, so an external `hyprctl keyword` cannot desync the menu.
-      # gaps_out reports under .custom as a gap tuple ("5 10 5 10"); .int is the
+      # a state file, so an external `hyprctl eval` cannot desync the menu.
+      # gaps_out reports under .css as a gap tuple ("5 10 5 10"); .int is the
       # fallback in case a Hyprland release reports it as a plain integer.
       gaps_toggle() {
         if [ "$(hyprctl getoption general:gaps_out -j \
-                | jq -r '(.custom // .int // "") | tostring | split(" ")[0]')" = "0" ]; then
-          hyprctl keyword general:gaps_out 8
-          hyprctl keyword general:gaps_in 4
+                | jq -r '(.css // .int // "") | tostring | split(" ")[0]')" = "0" ]; then
+          hyprctl eval 'hl.config({ general = { gaps_out = 8, gaps_in = 4 } })'
         else
-          hyprctl keyword general:gaps_out 0
-          hyprctl keyword general:gaps_in 0
+          hyprctl eval 'hl.config({ general = { gaps_out = 0, gaps_in = 0 } })'
         fi
       }
 
@@ -77,9 +75,9 @@ pkgs: {
       transparency_toggle() {
         if [ "$(hyprctl getoption decoration:inactive_opacity -j \
                 | jq -r 'if .float >= 1 then "opaque" else "transparent" end')" = "opaque" ]; then
-          hyprctl keyword decoration:inactive_opacity 0.9
+          hyprctl eval 'hl.config({ decoration = { inactive_opacity = 0.9 } })'
         else
-          hyprctl keyword decoration:inactive_opacity 1.0
+          hyprctl eval 'hl.config({ decoration = { inactive_opacity = 1.0 } })'
         fi
       }
 
@@ -270,7 +268,7 @@ pkgs: {
         # dispatching into it.
         while read -r addr; do
           [ -n "$addr" ] || continue
-          hyprctl dispatch sendshortcut "CTRL SHIFT, comma, address:$addr" \
+          hyprctl dispatch "hl.dsp.send_shortcut({ mods = 'CTRL SHIFT', key = 'comma', window = 'address:$addr' })" \
             >/dev/null 2>&1 || true
         done < <(hyprctl clients -j \
                  | jq -r '.[] | select(.class == "com.mitchellh.ghostty") | .address')
@@ -285,7 +283,7 @@ pkgs: {
         # shellcheck source=/dev/null
         . "$theme_dir/$v/env"
 
-        # Both hyprland.conf and hyprlock.conf source current/, so one reload
+        # Both hyprland.lua and hyprlock.conf read current/, so one reload
         # covers borders now and the lock screen next time it is invoked.
         hyprctl reload >/dev/null 2>&1 || true
         hyprctl setcursor "$CURSOR_THEME_NAME" 24 >/dev/null 2>&1 || true
